@@ -1,0 +1,67 @@
+<div class="flex flex-wrap">
+    <div class="w-1/2">
+        <div class="px-16">
+            <div>
+                <span class="text-3xl mx-10">Blog Outline</span>
+                <i class="pi pi-info-circle font-bold" style="color: #708090"></i>
+            </div>
+            <form class="w-full px-5">
+                <div class="pb-2 pt-8">
+                    <label class="text-base text-gray">Document Name</label>
+                    <div class="flex items-center py-3">
+                        <input type="text" pInputText  class="w-full py-2 px-4 border border-gray-300 rounded-lg" />
+                    </div>
+                </div>
+                <div class="py-2">
+                    <label class="text-base text-gray">Title</label>
+                    <div class="flex items-center py-3">
+                        <input type="text" pInputText  class="w-full py-2 px-4 border border-gray-300 rounded-lg" />
+                    </div>
+                </div>
+                <div class="py-2">
+                    <label class="text-base text-gray">Content</label>
+                    <div class="flex items-center py-3">
+                        <input type="text" pInputText  class="w-full py-2 px-4 border border-gray-300 rounded-lg" />
+                    </div>
+                </div>
+                <div class="w-full flex flex-wrap" *ngIf="showAdvanced">
+                    <div class="py-2 w-1/2 px-2">
+                        <label class="text-base text-gray">Language</label>
+                        <div class="flex items-center py-3">
+                            <p-dropdown [options]="language" optionLabel="name"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="py-2 w-1/2 px-2">
+                        <label class="text-base text-gray">Max Length</label>
+                        <div class="flex items-center py-3">
+                            <input type="text" pInputText  class="w-full py-2 px-4 border border-gray-300 rounded-lg" />
+                        </div>
+                    </div>
+                    <div class="py-2 w-1/2 px-2">
+                        <label class="text-base text-gray">Creativity</label>
+                        <div class="flex items-center py-3">
+                            <p-dropdown [options]="language" optionLabel="name"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="py-2 w-1/2 px-2">
+                        <label class="text-base text-gray">Variations</label>
+                        <div class="flex items-center py-3">
+                            <input type="text" pInputText  class="w-full py-2 px-4 border border-gray-300 rounded-lg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3 pt-6 gap-20">
+                    <div>
+                        <p-button class="buttoncolor px-10 text-white font-thin py-5 border border-gray-300 rounded-lg" label="Generate"></p-button>
+                    </div>
+                    <div>
+                        <p-button class="bg-gray px-10 font-thin py-5 border border-gray-300 rounded-lg" label="Advanced"></p-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="w-1/2">
+
+    </div>
+</div>

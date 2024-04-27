@@ -1,0 +1,40 @@
+<div class="relative">
+    <div class="flex gap-4">
+      <div class="flex items-center justify-center h-screen w-2/5">
+        <div class="flex flex-col items-center justify-center">
+          <div class="my-8">
+            <img src="../../../assets/images/logo.svg" alt="logo" />
+          </div>
+          <form class="w-full max-w-xs">
+            <div class="pb-4">
+              <label class="text-sm text-gray-500">Email address</label><br />
+              <div class="flex items-center relative">
+                <img src="../../../assets/images/message.svg" class="absolute left-2.5 mail" alt="email-icon" />
+                <input type="text" pInputText placeholder="jenny@example.com"
+                  class="w-full py-2 px-4 border border-gray-300 rounded-lg" />
+              </div>
+            </div>
+          </form>
+          <div>
+            <div class="text-xs text-blue-500 pb-4">
+              We’ll email you a magic code to login.
+            </div>
+            <div class="btn-section flex flex-col items-center">
+              <button class="buttoncolor text-white text-sm py-3 px-8 rounded-lg" (click)="showOtp =!showOtp">
+                Continue
+              </button>
+              <div class="text-blue-500 text-sm py-2">Don’t have an account? Sign up</div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute bottom-4 text-xs text-gray-600 pt-4">
+          By proceeding, you are agreeing to Ultimate AI Generator’s Terms of
+          Service and Privacy Policy
+        </div>
+      </div>
+      <div class="h-full w-3/5">
+        <app-comment-log></app-comment-log>
+      </div>
+    </div>
+    <app-otp-screen *ngIf="showOtp" (codeResendNotReceived)="handleCodeResendNotReceived($event)"></app-otp-screen>
+  </div>
