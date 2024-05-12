@@ -4,6 +4,8 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { CommonModule } from '@angular/common';
+import { SpeedDialModule } from 'primeng/speeddial';
+
 export interface Product {
   id?: string;
   code?: string;
@@ -20,7 +22,7 @@ export interface Product {
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [TabMenuModule, TableModule, TagModule, CommonModule],
+  imports: [TabMenuModule, TableModule, TagModule, CommonModule,SpeedDialModule],
   templateUrl: './history.component.html',
   styleUrl: './history.component.css'
 })
@@ -30,6 +32,36 @@ export class HistoryComponent {
     { label: 'History' },
     { label: 'Content Package History' },
   ];
+actionItems = [
+    {
+        icon: 'pi pi-pencil',
+        command: () => {
+            // this.messageService.add({ severity: 'info', summary: 'Add', detail: 'Data Added' });
+        }
+    },
+    {
+        icon: 'pi pi-refresh',
+        command: () => {
+            // this.messageService.add({ severity: 'success', summary: 'Update', detail: 'Data Updated' });
+        }
+    },
+    {
+        icon: 'pi pi-trash',
+        command: () => {
+            // this.messageService.add({ severity: 'error', summary: 'Delete', detail: 'Data Deleted' });
+        }
+    },
+    {
+        icon: 'pi pi-upload',
+        routerLink: ['/fileupload']
+    },
+    {
+        icon: 'pi pi-external-link',
+        target: '_blank',
+        url: 'http://angular.io'
+    }
+];
+
   products!: Product[];
   constructor() {
     this.activeItem = this.items[1]

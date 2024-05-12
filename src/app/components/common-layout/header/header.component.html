@@ -2,8 +2,10 @@
     <div class="text-3xl text-black">{{headerName}}</div>
     <div class="flex">
         <div class="">
-            <i class="pi pi-search" style="left: 25px; color: #d9d9d9;"></i>
-            <input type="text" pInputText class="h-10 rounded-full w-56 border-transparent" placeholder="search tools">
+            <p-iconField iconPosition="left">
+                <p-inputIcon styleClass="pi pi-search" />
+                <input type="text" pInputText placeholder="Search" class=" px-10 bg-transparent h-10 rounded-full w-96 border bottom-8"/>
+            </p-iconField>
         </div>
     </div>
     <div class="flex items-center justify-end gap-8">

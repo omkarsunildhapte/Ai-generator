@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [InputTextModule],
+  imports: [InputTextModule,IconFieldModule,InputIconModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
