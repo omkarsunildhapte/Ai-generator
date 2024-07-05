@@ -1,0 +1,37 @@
+{
+    "countries": [
+      {
+        "name": "United States",
+        "code": "US",
+        "states": [
+          {
+            "name": "California",
+            "code": "CA",
+            "cities": ["Los Angeles", "San Francisco", "San Diego"]
+          },
+          {
+            "name": "Texas",
+            "code": "TX",
+            "cities": ["Houston", "Dallas", "Austin"]
+          }
+        ]
+      },
+      {
+        "name": "Canada",
+        "code": "CA",
+        "states": [
+          {
+            "name": "Ontario",
+            "code": "ON",
+            "cities": ["Toronto", "Ottawa", "Hamilton"]
+          },
+          {
+            "name": "British Columbia",
+            "code": "BC",
+            "cities": ["Vancouver", "Victoria", "Surrey"]
+          }
+        ]
+      }
+    ]
+  }
+  
