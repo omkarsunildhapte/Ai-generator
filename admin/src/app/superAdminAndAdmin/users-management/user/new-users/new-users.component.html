@@ -1,0 +1,100 @@
+<p-dialog header="New User Account" [(visible)]="userExist" [style]="{ width: '50rem'}">
+  <form [formGroup]="userForm" (ngSubmit)="onSave()">
+    <div class="flex gap-3">
+      <div class="flex gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="firstName" class="text-start font-semibold w-6rem">First Name</label>
+        <input id="firstName" class="flex-auto border-2 w-full" formControlName="name" autocomplete="off" />
+      </div>
+      <div class="flex gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="lastName" class="text-start font-semibold w-6rem">Last Name</label>
+        <input id="lastName" class="flex-auto border-2 w-full" formControlName="surname" autocomplete="off" />
+      </div>
+    </div>
+    <div class="flex gap-3">
+      <div class="flex gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="email" class="text-start font-semibold w-6rem">Email</label>
+        <input id="email" class="flex-auto border-2 w-full" formControlName="email" autocomplete="off" type="email" readonly />
+      </div>
+      <div class="flex gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="phoneNumber" class="text-start font-semibold w-6rem">Phone Number</label>
+        <input id="phoneNumber" class="flex-auto border-2 w-full" formControlName="phoneNumber" autocomplete="off" />
+      </div>
+    </div>
+    <div class="flex gap-3">
+      <div class="flex items-center gap-3 mb-3 w-6/12">
+        <label class="text-start font-semibold w-6/12">Account Status</label>
+        <p-inputSwitch id="accountStatus" formControlName="account_status" class="w-6/12"></p-inputSwitch>
+      </div>
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="roles" class="text-start font-semibold w-6rem">Roles</label>
+        <p-multiSelect [options]="rolesList" optionLabel="name" placeholder="Select Permissions" formControlName="role"
+          [filter]="true" ></p-multiSelect>
+      </div>
+    </div>
+    <div class="flex gap-3 mb-3 w-full">
+      <label class="text-start font-semibold w-6/12">Assign secure password</label>
+      <p-inputSwitch id="securePassword" formControlName="securepassword" class="w-6/12"></p-inputSwitch>
+    </div>
+    @if(userForm.controls['securepassword'].value==false){
+    <div class="flex gap-3">
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="password" class="text-start font-semibold w-6rem">Password</label>
+        <input id="password" class="flex-auto border-2 w-full" formControlName="password" autocomplete="new-password"
+          type="password" />
+      </div>
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="confirmPassword" class="text-start font-semibold w-6rem">Confirm Password</label>
+        <input id="confirmPassword" class="flex-auto border-2 w-full" formControlName="confirmPassword"
+          autocomplete="new-password" type="password" />
+      </div>
+    </div>
+    }
+    <div class="flex gap-3">
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="country" class="text-start font-semibold w-6rem">Country</label>
+         <select class="flex-auto border-2 w-full" formControlName="country" (change)="onCountryChange()">
+          <option value="">--Select--</option>
+          @for(country of countries;track country){
+            <option [value]="country.code">{{country.name}}</option>
+          }
+         </select>
+      </div>
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="state" class="text-start font-semibold w-6rem">State</label>
+        <select class="flex-auto border-2 w-full" formControlName="state" (change)="onStateChange()">
+          <option value="">--Select--</option>
+          @for(state of states;track state){
+            <option [value]="state.code">{{state.name}}</option>
+          }
+         </select>
+      </div>
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="city" class="text-start font-semibold w-6rem">City</label>
+        <select class="flex-auto border-2 w-full" formControlName="city">
+          <option value="">--Select--</option>
+          @for(city of cities;track city){
+            <option [value]="city">{{city}}</option>
+          }
+         </select>
+      </div>
+    </div>
+    <div class="flex gap-3">
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="locationName" class="text-start font-semibold w-6rem">Location Name</label>
+        <input id="locationName" class="flex-auto border-2 w-full" formControlName="locationName" autocomplete="off" />
+      </div>
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="address" class="text-start font-semibold w-6rem">Address</label>
+        <textarea id="address" class="flex-auto border-2 w-full" formControlName="address" autocomplete="off"></textarea>
+      </div>
+      <div class="flex items-center gap-3 mb-3 w-6/12 flex-1 flex-col">
+        <label for="zipcode" class="text-start font-semibold w-6rem">Zipcode</label>
+        <input id="zipcode" class="flex-auto border-2 w-full" formControlName="zipcode" autocomplete="off" />
+      </div>
+    </div>
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Cancel" severity="secondary" (click)="userExist = false"></p-button>
+      <p-button label="Save" type="submit"></p-button>
+    </div>
+  </form>
+</p-dialog>

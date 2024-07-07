@@ -1,0 +1,143 @@
+<form [formGroup]="brandForm" (ngSubmit)="onSubmit()">
+  <div class="w-full bg-white h-full">
+    <div class="flex flex-col rounded shadow-lg border-4 mx-10">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Brand Settings</div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="brandTitle" class="block text-gray-700 text-sm font-bold mb-2">Brand Title</label>
+            <input id="brandTitle" type="text" placeholder="Enter brand title..."
+                   formControlName="title"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="brandSlogan" class="block text-gray-700 text-sm font-bold mb-2">Brand Slogan</label>
+            <input id="brandSlogan" type="text" placeholder="Enter brand slogan..."
+                   formControlName="slogan"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="brandLogo" class="block text-gray-700 text-sm font-bold mb-2">Brand Logo</label>
+            @if(getValue('logo','file')){
+              <img class="w-32 max-h-32 object-cover mb-2" [src]="getValue('logo','base64String')" alt="Brand Logo">
+              <span class="block text-gray-600 mb-2">{{getValue('logo','file')}}</span>
+            } 
+            @if(getValue('logo','file')==null){
+              <input 
+                id="brandLogo" 
+                type="file"
+                (change)="handleFileInput($event, 'logo')"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+            }
+          </div>                    
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="background" class="block text-gray-700 text-sm font-bold mb-2">Background Image</label>
+            @if(getValue('logo','file')){
+              <img class="w-32 max-h-32 object-cover mb-2" [src]="getValue('background', 'base64String')" alt="Background Image">
+              <span class="block text-gray-600 mb-2">{{getValue('background', 'file')}}</span>
+            }
+            @if(getValue('logo','file')==null){
+              <input 
+                id="background" 
+                type="file"
+                (change)="handleFileInput($event, 'background')"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+            }
+          </div>          
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+            <input id="email" type="text" placeholder="Enter email address..."
+                   formControlName="email"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="default_language" class="block text-gray-700 text-sm font-bold mb-2">Default Locale</label>
+            <select formControlName="default_language" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="">Select Default Locale</option>
+              @for(language of languages;track language){
+                <option [value]="language.code">{{language.name}}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Address</label>
+            <input id="address" type="text" placeholder="Enter address..."
+                   formControlName="address"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
+            <input id="phone" type="text" placeholder="Enter phone number..."
+                   formControlName="phone"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+        </div>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="facebook" class="block text-gray-700 text-sm font-bold mb-2">Facebook</label>
+            <input id="facebook" type="text" placeholder="Enter Facebook URL..."
+                   formControlName="facebook"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="instagram" class="block text-gray-700 text-sm font-bold mb-2">Instagram</label>
+            <input id="instagram" type="text" placeholder="Enter Instagram URL..."
+                   formControlName="instagram"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="xapp" class="block text-gray-700 text-sm font-bold mb-2">X App</label>
+            <input id="xapp" type="text" placeholder="Enter xApp URL..."
+                   formControlName="xapp"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="whatsapp" class="block text-gray-700 text-sm font-bold mb-2">Whatsapp</label>
+            <input id="whatsapp" type="text" placeholder="Enter whatsapp URL..."
+                   formControlName="whatsapp"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="google" class="block text-gray-700 text-sm font-bold mb-2">Google</label>
+            <input id="google" type="text" placeholder="Enter Google URL..."
+                   formControlName="google"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="linkedin" class="block text-gray-700 text-sm font-bold mb-2">LinkedIn</label>
+            <input id="linkedin" type="text" placeholder="Enter LinkedIn URL..."
+                   formControlName="linkedin"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="youtube" class="block text-gray-700 text-sm font-bold mb-2">YouTube</label>
+            <input id="youtube" type="text" placeholder="Enter YouTube URL..."
+                   formControlName="youtube"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label for="tiktok" class="block text-gray-700 text-sm font-bold mb-2">TikTok</label>
+            <input id="tiktok" type="text" placeholder="Enter TikTok URL..."
+                   formControlName="tiktok"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+        </div>
+      </div>
+      <div class="px-6 py-4">
+        <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+

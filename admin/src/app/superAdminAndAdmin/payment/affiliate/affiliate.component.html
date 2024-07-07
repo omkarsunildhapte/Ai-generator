@@ -1,0 +1,34 @@
+<div class="rounded shadow-lg bg-white mb-4 mx-4 px-6 py-4">
+    <div>
+        <div class="font-bold text-xl mb-2 border-b-2">Affiliate</div>
+        <div class="mt-4">
+            <label for="inputField" class="block text-gray-700 text-sm font-bold mb-2">Rewardful Key</label>
+            <input [(ngModel)]="key" id="inputField" type="text" placeholder="Enter Key" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+    </div>
+    <div class="pt-5">
+        <button (click)="submit()"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Save
+        </button>
+    </div>
+</div>
+
+<div class="rounded shadow-lg bg-white mb-4 mx-4 px-6 py-4">
+    <div>
+        <div class="font-bold text-xl mb-2">Affiliate Instructions</div>
+        Welcome to our affiliate program! Here are the steps to get started:
+        <ol class="list-decimal pl-6">
+            <li>Sign up for our affiliate program on our website.</li>
+            <li>Receive your unique affiliate link upon approval.</li>
+            <li>Promote our products using your affiliate link.</li>
+            <li>Earn commissions for every sale made through your affiliate link.</li>
+        </ol>
+    </div>
+    <div class="px-6 py-4">
+        <button
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Learn More
+        </button>
+    </div>
+</div>

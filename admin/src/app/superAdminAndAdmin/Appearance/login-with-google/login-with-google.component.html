@@ -1,0 +1,57 @@
+<form [formGroup]="googleSetupForm" (ngSubmit)="onSubmit()">
+  <div class="w-full bg-white h-full" style="height: 100vh; overflow-y: auto;">
+    <div class="flex flex-col rounded shadow-lg border-4 mx-10">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Google Login Setup Settings</div>
+        <div class="mt-4">
+          <label for="enable_login_google" class="block text-gray-700 text-sm font-bold mb-2">Enable Login Google</label>
+          <div class="relative">
+            <select id="enable_login_google"
+                    formControlName="enable_login_google"
+                    class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500">
+              <option value="">Select option</option>
+              <option value="1">Enable</option>
+              <option value="0">Disable</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path fill="#000000"
+                      d="M9.293,13.293l-4-4a1,1,0,0,1,1.414-1.414L10,11.586l3.293-3.293a1,1,0,0,1,1.414,1.414l-4,4A1,1,0,0,1,9.293,13.293Z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label for="google_client_id" class="block text-gray-700 text-sm font-bold mb-2">Google Client ID</label>
+          <input id="google_client_id" type="text" formControlName="google_client_id" placeholder="Enter Google Client ID..."
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <div class="mt-4">
+          <label for="google_client_secret" class="block text-gray-700 text-sm font-bold mb-2">Google Client Secret</label>
+          <input id="google_client_secret" type="text" formControlName="google_client_secret" placeholder="Enter Google Client Secret..."
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <div class="mt-4">
+          <label for="google_callback_url" class="block text-gray-700 text-sm font-bold mb-2">Google Callback URL</label>
+          <input id="google_callback_url" type="text" formControlName="google_callback_url" placeholder="Enter Google Callback URL..."
+                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <div class="mt-4">
+          <label for="custom_script" class="block text-gray-700 text-sm font-bold mb-2">Custom Script</label>
+          <textarea id="custom_script" formControlName="custom_script" placeholder="Enter custom script..."
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32"></textarea>
+        </div>
+      </div>
+      <div class="px-6 py-4">
+        <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

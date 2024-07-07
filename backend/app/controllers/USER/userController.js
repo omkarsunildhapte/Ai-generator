@@ -18,8 +18,11 @@ const userController = {
       if (existingUser) {
         return res.status(400).json({ error: 'User already exists', status: 400, res: null });
       }
-      const user = await User.register({ name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode, tenant_id, affiliate });
-      res.status(201).json({ error: null, res: user, status: 201 });
+      await User.register({ name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode, tenant_id, affiliate });
+      const resp = {
+        message: 'Registration Successfully'
+      };
+      res.status(201).json({ error: null, res: resp, status: 201 });
     } catch (err) {
       res.status(500).json({ error: err.message, status: 500, res: null });
     }
@@ -34,7 +37,7 @@ const userController = {
       }
       const otp = generateOtp();
       const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-      await User.updateOtp(user.id, otp, otpExpiry);
+      await User.updateOtp(user.id,user.tenant_id,otp, otpExpiry);
       const brand = await Brand.getBranding(user.tenant_id);
       await sendOtp(user, otp, brand);
       const resp = {
@@ -50,9 +53,12 @@ const userController = {
     const { email, otp } = req.body;
     try {
       const user = await User.verifyOtp(email, otp);
+      if (!user) {
+        return res.status(200).json({res: null,status: 400,error: 'Otp is Expiry and Invalid'});
+      }
       const token = generateToken();
       const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
-      await User.clearOtp(user.id);
+      await User.clearOtp(user.id,user.tenant_id);
       await User.updateToken(user.id, token, tokenExpiry);
       const brand = await Brand.getBranding(user.id)
       if (!brand) {
@@ -85,13 +91,16 @@ const userController = {
   regenerateOtp: async (req, res) => {
     const email = req.params.email;
     try {
-      const user = await User.findByEmail(email);
       const otp = generateOtp();
       const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-      await User.updateOtp(user.id, otp, otpExpiry);
+      const user = await User.findByEmail(email);
+      await User.updateOtp(user.id,user.tenant_id,otp, otpExpiry);
       const brand = await Brand.getBranding(user.tenant_id);
       await sendOtp(user, otp, brand);
-      res.status(200).json({ res: 'New OTP sent to email', status: 200, error: null });
+      const resp = {
+        message: 'New OTP sent to email'
+      };
+      res.status(200).json({ res:resp, status: 200, error: null });
     } catch (err) {
       res.status(500).json({ error: err.message, status: 500, res: null });
     }
@@ -100,14 +109,14 @@ const userController = {
   forgotPassword: async (req, res) => {
     const email = req.params.email;
     try {
-      const user = await User.findByEmail(email);
       const otp = generateOtp();
       const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-      await User.updateOtp(user.id, otp, otpExpiry);
-      await sendOtp(user.email, otp);
+      const user = await User.findByEmail(email);
+      await User.updateOtp(user.id, user.tenant_id,otp, otpExpiry);
+      const brand = await Brand.getBranding(user.tenant_id);
+      await sendOtp(user, otp, brand);
       const getVakue = {
         message: 'OTP sent to email for password reset',
-        email: user.email
       }
       res.status(200).json({ res: getVakue, status: 200, error: null });
     } catch (err) {
@@ -119,9 +128,16 @@ const userController = {
     const { email, otp, newPassword } = req.body;
     try {
       const user = await User.verifyOtp(email, otp);
-      await User.updatePassword(user.id, newPassword);
-      await User.clearOtp(user.id);
-      res.status(200).json({ message: 'Password updated successfully', status: 200 });
+      if (!user) {
+        return res.status(200).json({res: null,status: 400,error: 'Otp is Expiry and Invalid'});
+      }
+      await User.updatePassword(user.id,user.tenant_id ,newPassword);
+      await User.clearOtp(user.id,user.tenant_id);
+      await User.updateToken(user.id, null, null);
+      const getVakue = {
+        message: 'Password updated successfully',
+      }
+      res.status(200).json({ res: getVakue, status: 200, error: null });
     } catch (err) {
       res.status(500).json({ error: err.message, status: 500, res: null });
     }
@@ -318,7 +334,7 @@ const userController = {
     const tenantId = parseInt(req.query.tenantId);
     const { newPassword, email } = req.body;
     try {
-      await User.updatePassword(newPassword, userId, tenantId);
+      await User.updatePassword(userId,tenantId ,newPassword);
       await updatePassword(email, newPassword)
       rres.status(200).json({ status: 200, error: null, res: null });
     } catch (err) {

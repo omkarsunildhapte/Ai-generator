@@ -10,18 +10,18 @@ const User = {
   },
 
   register: async (userData) => {
-    const { name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode, tenant_id, affiliate}= userData;
+    const { name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode, tenant_id, affiliate } = userData;
     const hashedPassword = await bcrypt.hash(password, 10);
-    await db.query(`INSERT INTO users (name, surname, email, phone_number, account_status, password, locationName, address,state,city,zipcode,county,tenant_id,affiliate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
-    [name, surname, email, phone_number, 1, hashedPassword, locationName, address, state, city, zipcode, county, tenant_id, affiliate ]);
-  },  
-
-  updateOtp: async (id, otp, otpExpiry) => {
-    await db.query("UPDATE users SET otp = ?, otp_expiry = ? WHERE id = ?", [otp, otpExpiry, id,]);
+    await db.query(`INSERT INTO users (name, surname, email, phone_number, account_status, password, locationName, address,state,city,zipcode,county,tenant_id,affiliate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, surname, email, phone_number, 1, hashedPassword, locationName, address, state, city, zipcode, county, tenant_id, affiliate]);
   },
 
-  clearOtp: async (id) => {
-    await db.query("UPDATE users SET otp = NULL, otp_expiry = NULL WHERE id = ?", [id]);
+  updateOtp: async (id, tenantId, otp, otpExpiry) => {
+    await db.query("UPDATE users SET otp = ?, otp_expiry = ? WHERE id = ? AND tenant_id = ?", [otp, otpExpiry, id, tenantId]);
+  },
+
+  clearOtp: async (id, tenantId) => {
+    await db.query("UPDATE users SET otp = NULL, otp_expiry = NULL WHERE id = ? AND tenant_id = ?", [id, tenantId]);
   },
 
   updateToken: async (userId, token, tokenExpiry) => {
@@ -32,7 +32,11 @@ const User = {
     const [rows] = await db.query("SELECT * FROM users WHERE email = ? AND otp = ? AND otp_expiry > NOW()", [email, otp]);
     return rows[0];
   },
-  
+  updatePassword: async (id, tenantId, newPassword) => {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await db.query("UPDATE users SET password = ? WHERE id = ? AND tenant_id = ?", [hashedPassword, id, tenantId]);
+  },
+
   // Affiliate 
 
   updateAffiliate: async (id, affiliate) => {
@@ -44,7 +48,7 @@ const User = {
     return rows.length > 0 ? rows[0] : null;
   },
 
- // AI Setting  
+  // AI Setting  
 
   openAiKeySettings: async (id, tenantId, defaultEngine, defaultEngineKey, defaultEngineMaxToken) => {
     await db.query("UPDATE users SET default_engine = ?, default_engine_key = ?, default_engine_max_token = ? WHERE id = ? AND tenant_id = ?", [defaultEngine, defaultEngineKey, defaultEngineMaxToken, id, tenantId]);
@@ -58,20 +62,20 @@ const User = {
     await db.query("UPDATE users SET chat_model = ?, chat_model_persona = ? WHERE id = ? AND tenant_id = ?", [chatModel, chatModelPersona, id, tenantId]);
   },
 
-  getSettings: async (id,tenantId) => {
-    const [settings] = await db.query("SELECT default_engine, default_engine_key, default_engine_max_token, bing_search_key, bing_search_status, chat_model, chat_model_persona FROM users WHERE id = ? AND tenant_id = ?", [id,tenantId]);
+  getSettings: async (id, tenantId) => {
+    const [settings] = await db.query("SELECT default_engine, default_engine_key, default_engine_max_token, bing_search_key, bing_search_status, chat_model, chat_model_persona FROM users WHERE id = ? AND tenant_id = ?", [id, tenantId]);
     return settings[0];
   },
 
   //Google Settings
 
-  updateGoogleSettings: async (id,tenantId,userData) => {
+  updateGoogleSettings: async (id, tenantId, userData) => {
     const { enable_login_google, google_client_id, google_client_secret, google_callback_url, custom_script } = userData;
-    return await db.query(`UPDATE users SET enable_login_google = ?, google_client_id = ?, google_client_secret = ?, google_callback_url = ?, custom_script = ? WHERE id = ? AND tenant_id = ?`, [enable_login_google, google_client_id, google_client_secret, google_callback_url, custom_script, id,tenantId]);
+    return await db.query(`UPDATE users SET enable_login_google = ?, google_client_id = ?, google_client_secret = ?, google_callback_url = ?, custom_script = ? WHERE id = ? AND tenant_id = ?`, [enable_login_google, google_client_id, google_client_secret, google_callback_url, custom_script, id, tenantId]);
   },
 
-  getGoogleSettings:async (id,tenantId) =>{
-    const [settings] = await db.query("SELECT enable_login_google, google_client_id, google_client_secret, google_callback_url, custom_script FROM users WHERE id = ? AND tenant_id = ?", [id,tenantId]);
+  getGoogleSettings: async (id, tenantId) => {
+    const [settings] = await db.query("SELECT enable_login_google, google_client_id, google_client_secret, google_callback_url, custom_script FROM users WHERE id = ? AND tenant_id = ?", [id, tenantId]);
     return settings[0];
   },
 
@@ -88,11 +92,9 @@ const User = {
       throw new Error(`Error creating user: ${error.message}`);
     }
   },
-  
-  updatePassword: async (newPassword, id, tenantId) => {
-    await db.query("UPDATE users SET password = ? WHERE id = ? AND tenant_id = ?", [newPassword, id, tenantId]);
-  },
-  
+
+
+
 
   get: async ({ tenantId, page = 1, limit = 10, sort, search }) => {
     try {
@@ -150,9 +152,7 @@ const User = {
   updateEmail: async (userId, newEmail, tenantId) => {
     await db.query("UPDATE users SET email = ? WHERE id = ? AND tenant_id = ?", [newEmail, userId, tenantId]);
   },
-
- 
-
+  
   updateStatus: async (id, tenantId, activeStatus) => {
     await db.query("UPDATE users SET account_status = ? WHERE id = ? AND tenant_id = ?", [activeStatus, id, tenantId]);
   },
@@ -160,18 +160,6 @@ const User = {
   delete: async (id, tenantId) => {
     await db.query("UPDATE users SET delete_status = 1 WHERE id = ? AND tenant_id = ?", [id, tenantId]);
   },
-
-  
-  
-
-  
-
-  
-  
- 
-  
-  
-  
   update: async (id, userData) => {
     const { firstName, lastName, email, phoneNumber, activeStatus, roles } = userData;
     await db.query("UPDATE users SET name = ?, surname = ?, email = ?, phone_number = ?, account_status = ?, role = ? WHERE id = ?", [firstName, lastName, email, phoneNumber, activeStatus, JSON.stringify(roles), id,]);

@@ -32,7 +32,6 @@ const checkAuth = async (req, res, next) => {
     if (currentTime > tokenExpiry) {
       return res.status(401).json({ status: 401, error: 'Unauthorized: Token expired', res: null });
     }
-
     req.userData = userData;
     next();
   } catch (error) {

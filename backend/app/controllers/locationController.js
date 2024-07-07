@@ -13,6 +13,7 @@ module.exports = {
       res.status(500).json({ status: 500, error: error.message, res: null });
     }
   },
+  
   getStates: (req, res) => {
     try {
       const countryCode = req.params.countryCode;
@@ -26,6 +27,7 @@ module.exports = {
       res.status(500).json({ status: 500, error: error.message, res: null });
     }
   },
+  
   getCities: (req, res) => {
     try {
       const { countryCode, stateCode } = req.params;

@@ -1,0 +1,87 @@
+<div class="flex justify-center space-x-4 pt-3">
+    <div class="w-96 bg-white shadow-md rounded-md overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-base font-semibold text-gray-800 mb-4">OpenAI Settings</h2>
+            <form [formGroup]="openAIForm" (ngSubmit)="openAIUpdate()">
+                <div class="mb-4">
+                    <label for="openai-api-key" class="block text-sm font-medium text-gray-700 mb-1">OpenAI API Key</label>
+                    <input id="openai-api-key" type="text" placeholder="Enter API Key" formControlName="defaultEngineKey"
+                           class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+                <div class="mb-4">
+                    <label for="engine" class="block text-sm font-medium text-gray-700 mb-1">Engine</label>
+                    <select formControlName="defaultEngine" id="engine" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        <option value="">Select</option>
+                        <option value="GPT-4">GPT-4</option>
+                        <option value="GPT-3.5">GPT-3.5</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="default-max-tokens" class="block text-sm font-medium text-gray-700 mb-1">Default Max Tokens</label>
+                    <input formControlName="defaultEngineMaxToken" id="default-max-tokens" type="text" placeholder="Enter Max Tokens"
+                           class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+
+    <div class="w-96 bg-white shadow-md rounded-md overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Bing Search API Settings</h2>
+            <form [formGroup]="bingForm" (ngSubmit)="bingSubmit()">
+                <div class="mb-4 flex items-center">
+                    <input formControlName="bingSearchStatus" id="enable-search-api" type="checkbox" class="mr-2 border-gray-300 rounded shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                    <label for="enable-search-api" class="text-sm font-medium text-gray-700">Enable Search API Key</label>
+                </div>
+                <div class="mb-4">
+                    <label for="bing-api-key" class="block text-sm font-medium text-gray-700 mb-1">Bing Search API Key</label>
+                    <input formControlName="bingSearchKey" id="bing-api-key" type="text" placeholder="Enter API Key"
+                           class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                            class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+
+    <div class="w-96 bg-white shadow-md rounded-md overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-base font-semibold text-gray-800 mb-4">Chat Settings</h2>
+            <form [formGroup]="chatForm" (ngSubmit)="chatSubmit()">
+                <div class="mb-4">
+                    <label for="inputField3" class="block text-sm font-medium text-gray-700 mb-1">Deafult Model</label>
+                    <select formControlName="chatModel" id="engine" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        <option value="">Select</option>
+                        <option value="GPT-4">GPT-4</option>
+                        <option value="GPT-3.5">GPT-3.5</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="inputField3" class="block text-sm font-medium text-gray-700 mb-1">Persona</label>
+                    <select formControlName="chatModelPersona" id="engine" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200">
+                        <option value="">Select</option>
+                        <option value="GPT-4">GPT-4</option>
+                        <option value="GPT-3.5">GPT-3.5</option>
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

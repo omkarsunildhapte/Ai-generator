@@ -1,0 +1,50 @@
+<div class="flex">
+  <aside class="w-2/12 bg-gray-800 text-white p-4">
+    <nav>
+      <div class="border-b-2 py-3 px-4 border-sky-100">
+        <span class="text-base">
+          WarDire
+        </span>
+      </div>
+      <ul class="space-y-2 overflow-y-auto h-screen mains">
+        @for(menuItem of menuItems;track menuItems){
+        <li>
+          @if(menuItem.submenu){
+          <p class="font-semibold text-gray-500 text-sm">{{ menuItem.title }}</p>
+          <ul class="ps-4 space-y-2 flex flex-col">
+            @for(subItem of menuItem.submenu;track subItem){
+            @if(subItem.title!=='Logout'){
+              <a routerLink="{{ subItem.link }}" routerLinkActive="" class="p-1 text-gray-400 text-sm cursor-pointer">
+                <i class="pi pi-fw {{ subItem.icon }} mr-2"></i>{{ subItem.title }}
+              </a>
+            } @else {
+              <a (click)="userService.logOut()" class="p-1 text-gray-400 text-sm cursor-pointer">
+                <i class="pi pi-fw {{ subItem.icon }} mr-2"></i>{{ subItem.title }}
+              </a>
+            }
+            }
+          </ul>
+          } @else {
+          <a routerLink="{{ menuItem.link }}" routerLinkActive="" class="p-2">
+            <i class="pi pi-fw {{ menuItem.icon }} mr-2"></i>{{ menuItem.title }}
+          </a>
+          }
+        </li>
+        }
+      </ul>
+    </nav>
+  </aside>
+  <div class="w-10/12">
+    <nav class="w-full p-2">
+      <div class="h-[40px] border-b-black flex justify-between bg-white">
+        <div><i class="pi pi-fw pi-align-justify mr-2 mt-3"></i></div>
+        <div class="ml-4 mt-1">
+          <a class="text-sky-500">Landing page</a>
+          <a routerLink="/user" class="ml-4 text-sky-500">User dashboard</a
+          ><span class="ml-6">EN</span>
+        </div>
+      </div>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
+</div>

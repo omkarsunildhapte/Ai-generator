@@ -1,0 +1,105 @@
+<div class="container mx-auto p-4">
+  <div class="flex justify-between items-center mb-4">
+    <div></div>
+    <div class="flex items-center space-x-4">
+      <input type="text" [(ngModel)]="searchText" placeholder="Search By The Name"
+        class="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500">
+      <select [(ngModel)]="isDefaultFilter"
+        class="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500">
+        <option value="">Select is Default</option>
+        <option value="true">True</option>
+        <option value="false">False</option>
+      </select>
+      <button (click)="getCategories()"
+        class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-300">
+        Search
+      </button>
+      <button (click)="displayDialog=!displayDialog"
+        class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-300">
+        Add Category
+      </button>
+    </div>
+  </div>
+
+
+  <p-table [value]="data" [paginator]="true" [rows]="limit" [totalRecords]="totalRecords" [showCurrentPageReport]="true"
+    styleClass="p-datatable-gridlines" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    (onPage)="onPageChange($event)" [lazy]="true" [loading]="loading" [rowsPerPageOptions]="[5, 10, 25,50,100]"
+    [sortMode]="'multiple'" (onSort)="onSort($event)">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="px-4 py-2">
+          <p-checkbox (onChange)="toggleAllSelection($event)" binary="true"></p-checkbox>
+        </th>
+        <th class="px-4 py-2" pSortableColumn="name">Name
+          <p-sortIcon field="name" class="inline-block"></p-sortIcon>
+        </th>
+        <th class="px-4 py-2">Is Default
+        </th>
+        <th class="px-4 py-2">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+      <tr>
+        <td class="px-4 py-2">
+          <p-checkbox binary="true" [(ngModel)]="rowData.checkbox"></p-checkbox>
+        </td>
+        <td class="px-4 py-2">{{rowData.name}}</td>
+        <td class="px-4 py-2">
+          <span [class]="getStatusClass(rowData.status)" class="px-2 py-1 rounded-full text-sm">
+            {{ rowData.status === 1 ? 'true' : 'false' }}
+          </span>
+        </td>
+        <td class="px-4 py-2">
+          <div class="flex gap-2">
+            <button (click)="editData(rowData)"
+              class="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition-colors duration-300">
+              Edit
+            </button>
+            <button (click)="deleteData(rowData)"
+              class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition-colors duration-300">
+              Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No customers found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-dialog header="{{ id == 0 ? 'Add Category' : 'Edit Category' }}" [(visible)]="displayDialog"
+    [style]="{ width: '25rem' }">
+    <div class="p-fluid">
+      <div class="p-field p-grid mb-3">
+        <label for="username" class="p-col-12 p-md-6 font-semibold">Name</label>
+        <div class="p-col-12 p-md-6">
+          <input type="text" id="username"
+            class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            autocomplete="off" [(ngModel)]="categorieName" />
+        </div>
+      </div>
+      <div class="p-field p-grid mb-3">
+        <label for="status" class="p-col-12 p-md-6 font-semibold mx-5">Is Default Status</label>
+        <input type="checkbox"
+        id="status"
+        [(ngModel)]="isDefault"
+        class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+      </div>
+      <div class="p-field p-grid">
+        <div class="p-col-12">
+          <div class="flex justify-end space-x-2">
+            <button type="button"
+              class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors duration-300"
+              (click)="displayDialog = false">Cancel</button>
+            <button type="button"
+              class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-300"
+              (click)="save()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+</div>
