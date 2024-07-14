@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import {  FormControl,  FormGroup,  FormsModule,  ReactiveFormsModule,  Validators,} from '@angular/forms';
 import { UserService } from '../../service/user.service';
 import { Router, RouterLink } from '@angular/router';
-import { CommentLogComponent } from '../../user/comment-log/comment-log.component';
+import { CommentLogComponent } from '../comment-log/comment-log.component';
 import { InputOtpModule } from 'primeng/inputotp';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
@@ -63,7 +63,6 @@ export class ForgetPasswordComponent {
       this.userService.resetPassword(body).subscribe(
         (res: any) => {
           if (res.status === 200) {
-            debugger
             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.res.message });
             this.router.navigate(['/login']);
           } else {

@@ -123,8 +123,8 @@ export const routes: Routes = [
         loadComponent: () => import('./user/history/history.component').then(m => m.HistoryComponent),
       },
       {
-        path: 'blogs',
-        loadComponent: () => import('./user/blogs/blogs.component').then(m => m.BlogsComponent),
+        path: 'prompts',
+        loadComponent: () => import('./user/promote/promote.component').then(m => m.PromoteComponent),
       },
       {
         path: 'chats',
@@ -137,7 +137,19 @@ export const routes: Routes = [
       {
         path: 'imagegenerate',
         loadComponent: () => import('./user/image-generator/image-generator.component').then(m => m.ImageGeneratorComponent),
-      }
+      },
+      {
+        path: 'gallery',
+        loadComponent: () => import('./user/image-generator/image-generator.component').then(m => m.ImageGeneratorComponent),
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./user/profile/profile.component').then(m => m.ProfileComponent),
+      },
+      {
+        path: 'setting',
+        loadComponent: () => import('./user/settings/settings.component').then(m => m.SettingsComponent),
+      },
     ]
   }
 ];

@@ -1,0 +1,52 @@
+<div class="flex flex-wrap mx-10">
+    <div class="w-5/12 pe-6">
+        @if(promtes){
+            <div class="px-16">
+                <div>
+                    <span class="text-3xl mx-10">{{promtes.name}}</span>
+                    <i class="pi pi-info-circle font-bold" style="color: #708090"></i>
+                </div>
+                <form class="w-full pt-5" [formGroup]="promtesForm" class="w-full pt-5">
+                    @for(promte of promtes.question_list;track promte){
+                        @if(promte.type==1){
+                            <div class="pb-2 pt-8">
+                                <label class="text-base text-gray">{{promte.question_text}}</label>
+                                <div class="flex items-center py-3">
+                                    <input type="text" pInputText [formControlName]="promte.id"  class="w-full py-2 px-4 border border-gray-300 rounded-lg" />
+                                </div>
+                            </div>
+                        }@if (promte.type==3) {
+                            <div class="py-2 px-2">
+                                <label class="text-base text-gray">{{promte.question_text}}</label>
+                                <div class="flex items-center py-3 w-full">
+                                    <p-dropdown [formControlName]="promte.id" [options]="promte.options"></p-dropdown>
+                                </div>
+                            </div>
+                        } 
+                    }
+                    <div class="flex gap-3 pt-6">
+                        <div>
+                            <button (click)="onSubmit()" class="buttoncolor px-10 text-white font-thin py-5 border border-gray-300 rounded-lg">
+                                Generate
+                            </button>
+                        </div>
+                        <!-- <div>
+                            <p-button class="bg-gray px-10 font-thin py-5 border border-gray-300 rounded-lg" label="Advanced"></p-button>
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+        }
+    </div>
+    <div class="w-7/12">
+        @if(promtes){
+            <div class="card">
+                @if (promte.type=="1"){
+                    <p-editor [style]="{ height: '320px' }" [(ngModel)]="promte" />
+                } @else if (promte.type=="2")  {
+                
+                }
+            </div>
+        }
+    </div>
+</div>

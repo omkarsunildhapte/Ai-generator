@@ -1,105 +1,44 @@
 <div class="px-12">
     <div class="text-base font-bold">Catergories</div>
     <div class="flex flex-wrap  gap-3 pt-5 w-100">
-      <div class="buttoncolor py-1 px-5 rounded">
-        <span class="text-xs text-white"> All</span>
+      <div class="py-1 px-5 rounded border border-3" (click)="filterData()" [class]="filterValue==undefined ?'buttoncolor text-white' :'text-gray'">
+        <span class="text-xs "> All</span>
       </div>
       <div class="border border-3 py-2 px-3 bg-white rounded">
         <span>
           <img src="../../../assets/images/star.svg" alt="star-icon" style="height: 20px;" />
         </span>
-      </div>  
-      <div class="flex gap-2 items-center border border-3 py-2 px-5 bg-white rounded">
-        <span>
-          <img src="../../../assets/images/book.svg" alt="book" />
-        </span>
-        <span class="text-gray text-xs">Blog Tools</span>
-      </div>
-      <div class="flex gap-2 items-center border border-3 py-2 px-5 bg-white rounded">
-        <span>
-          <img src="../../../assets/images/book.svg" alt="book" />
-        </span>
-        <span class="text-gray text-xs">Blog Tools</span>
-      </div>
-      <div class="flex gap-2 items-center border border-3 py-2 px-5 bg-white rounded">
-        <span>
-          <img src="../../../assets/images/book.svg" alt="book" />
-        </span>
-        <span class="text-gray text-xs">Blog Tools</span>
-      </div>
+      </div> 
+      @for(item of tools_data;track item;){
+        <div class="flex gap-2 items-center border border-3 py-2 px-5 bg-white rounded" (click)="filterData(item.id)" [class]="filterValue==item.id ?'buttoncolor text-white' :'text-gray'">
+          <span>
+            <img src="../../../assets/images/book.svg" alt="book" />
+          </span>
+          <span class="text-xs">{{item.name}}</span>
+        </div>
+      } 
     </div>
     <div class="flex flex-wrap pt-5 gap-6">
-      <div class="border border-3 py-4 px-5 bg-white rounded w-80">
-        <div class="flex gap-5 pb-4">
-          <img src="../../../assets/images/book.svg" alt="">
-          <span class="text-gray font-bold">Blog Title Generator</span>
+      @for(item of filterPromts;track item){
+        <div class="border border-3 py-4 px-5 bg-white rounded w-80" (click)="getRouter(item)">
+          <div class="flex gap-5 pb-4">
+            <img src="../../../assets/images/book.svg" alt="">
+            <span class="text-gray font-bold">{{item.name}}</span>
+          </div>
+          <div class="py-3">
+            <span class="text-sm">
+              {{item.description}}
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <button class="px-3 py-2 bg-blue-200 text-xs text-sky-400">{{item.catName}}</button>
+            <span>
+            @if (item.fav){
+              <img src="../../../assets/images/star.svg" alt="" srcset="">
+            }
+            </span>
+          </div>
         </div>
-        <div class="py-3">
-          <span class="text-sm">An AI tool that serves as your 
-            personal blog post title writer, 
-            generating catchy and viral-worthy.... 
-          </span>
-        </div>
-        <div class="flex justify-between">
-          <button class="px-3 py-2 bg-blue-200 text-xs text-sky-400">Blog Tools</button>
-          <span>
-            <img src="../../../assets/images/star.svg" alt="" srcset="">
-          </span>
-        </div>
-      </div>
-      <div class="border border-3 py-4 px-5 bg-white rounded w-80">
-        <div class="flex gap-5 pb-4">
-          <img src="../../../assets/images/book.svg" alt="">
-          <span class="text-gray font-bold">Blog Title Generator</span>
-        </div>
-        <div class="py-3">
-          <span class="text-sm">An AI tool that serves as your 
-            personal blog post title writer, 
-            generating catchy and viral-worthy.... 
-          </span>
-        </div>
-        <div class="flex justify-between">
-          <button class="px-3 py-2 bg-blue-200 text-xs text-sky-400">Blog Tools</button>
-          <span>
-            <img src="../../../assets/images/star.svg" alt="" srcset="">
-          </span>
-        </div>
-      </div>
-      <div class="border border-3 py-4 px-5 bg-white rounded w-80">
-        <div class="flex gap-5 pb-4">
-          <img src="../../../assets/images/book.svg" alt="">
-          <span class="text-gray font-bold">Blog Title Generator</span>
-        </div>
-        <div class="py-3">
-          <span class="text-sm">An AI tool that serves as your 
-            personal blog post title writer, 
-            generating catchy and viral-worthy.... 
-          </span>
-        </div>
-        <div class="flex justify-between">
-          <button class="px-3 py-2 bg-blue-200 text-xs text-sky-400">Blog Tools</button>
-          <span>
-            <img src="../../../assets/images/star.svg" alt="" srcset="">
-          </span>
-        </div>
-      </div>
-      <div class="border border-3 py-4 px-5 bg-white rounded w-80">
-        <div class="flex gap-5 pb-4">
-          <img src="../../../assets/images/book.svg" alt="">
-          <span class="text-gray font-bold">Blog Title Generator</span>
-        </div>
-        <div class="py-3">
-          <span class="text-sm">An AI tool that serves as your 
-            personal blog post title writer, 
-            generating catchy and viral-worthy.... 
-          </span>
-        </div>
-        <div class="flex justify-between">
-          <button class="px-3 py-2 bg-blue-200 text-xs text-sky-400">Blog Tools</button>
-          <span>
-            <img src="../../../assets/images/star.svg" alt="" srcset="">
-          </span>
-        </div>
-      </div>
+      }
     </div>
   </div>

@@ -1,0 +1,59 @@
+::ng-deep .p-inputwrapper {
+    width: 100% !important;
+}
+::ng-deep .p-inputwrapper .p-dropdown{
+    width: 100% !important;
+    border: 1px solid #d1d5db;
+}
+::ng-deep .p-element .p-tabmenu{
+    border-bottom: 3px solid #e5e7eb;
+}
+::ng-deep .p-element .p-tabmenu .p-tabmenu-nav-container .p-tabmenu-nav-content .p-tabmenu-nav .p-highlight{
+    color: #7768cc;
+    border-bottom: 6px solid #7768cc;
+}
+::ng-deep .p-element .p-tabmenu .p-tabmenu-nav-container .p-tabmenu-nav-content .p-tabmenu-nav .p-tabmenuitem{
+width: 50%;
+justify-content: center;
+}
+::ng-deep .p-element .p-tabmenu .p-tabmenu-nav-container .p-tabmenu-nav-content .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link{
+background: transparent;
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px;
+  }
+  
+  .gallery-item {
+    width: calc(25% - 10px); /* Adjust to 25% for 4 items per row */
+    margin-bottom: 10px;
+    position: relative;
+  }
+  
+  .p-image {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .p-image:hover {
+    transform: scale(1.05);
+  }
+  ::ng-deep .p-element .p-image{
+    width: 100%;
+  }
+  ::ng-deep .p-element .p-image img{
+    width: 100%;
+  }
+  ::ng-deep .p-element .p-image .p-image-preview-indicator{
+    width: 100% !important;
+  }
+  ::ng-deep .p-element .p-image .p-image-mask .p-image-toolbar .p-image-action {
+    background: white;
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+  }

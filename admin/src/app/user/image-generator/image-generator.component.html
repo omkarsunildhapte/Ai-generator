@@ -1,34 +1,64 @@
 <p-tabMenu [model]="items" [activeItem]="activeItem" (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
-<div class="px-12">
-    <div class="pt-3">
-        <div class="flex w-100">
-            <input pInputText class="w-full py-2 px-4 border border-gray-300 rounded-lg" id="username" aria-describedby="username-help"  />
-            <p-button label="Submit" class="buttoncolor bg-gray px-10 font-thin py-2 border border-gray-300 rounded-lg"></p-button>
+@if(activeItem?.label ==='Image Generation'){
+<form [formGroup]="form">
+    <div class="px-12">
+        <div class="pt-10">
+            <div class="flex w-100 gap-2">
+                <div class="flex flex-col w-full">
+                    <input formControlName="question" placeholder="Enter the you want image" pInputText
+                        class="w-full py-4 px-4 border border-gray-300 rounded-lg" id="username"
+                        aria-describedby="username-help" />
+                    @if(form.controls['question'].invalid && form.controls['question'].touched){
+                    <div class="text-red-500 mt-1">
+                        Question is required
+                    </div>
+                    }
+                </div>
+                <button (click)="onSubmit()"
+                    class="text-white font-medium buttoncolor bg-gray px-10 py-2 border border-gray-300 rounded-lg">
+                    Submit
+                </button>
+            </div>
+            <div class="flex gap-1 w-1/2 pt-6">
+                <div class="py-2 w-1/2 px-2">
+                    <label class="text-base text-gray">No of Images</label>
+                    <div class="flex items-center py-3">
+                        <p-dropdown [options]="noOfImagesOptions" optionValue="value" optionLabel="name"
+                            formControlName="noOfImages"></p-dropdown>
+                    </div>
+                </div>
+                <div class="py-2 w-1/2 px-2">
+                    <label class="text-base text-gray">Image Size</label>
+                    <div class="flex items-center py-3">
+                        <p-dropdown [options]="imageSizeOptions" optionValue="value" optionLabel="name"
+                            formControlName="imageSize"></p-dropdown>
+                    </div>
+                </div>
+                <div class="py-2 w-1/2 px-2">
+                    <label class="text-base text-gray">Style</label>
+                    <div class="flex items-center py-3">
+                        <p-dropdown [options]="styleOptions" optionValue="value" optionLabel="name"
+                            formControlName="style"></p-dropdown>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="flex gap-1 w-1/2 pt-6">
-            <div class="py-2 w-1/2 px-2">
-                <label class="text-base text-gray">No of Images</label>
-                <div class="flex items-center py-3">
-                    <p-dropdown [options]="language" optionLabel="name"></p-dropdown>
-                </div>
-            </div>
-            <div class="py-2 w-1/2 px-2">
-                <label class="text-base text-gray">Image Size</label>
-                <div class="flex items-center py-3">
-                    <p-dropdown [options]="language" optionLabel="name"></p-dropdown>
-                </div>
-            </div>
-            <div class="py-2 w-1/2 px-2">
-                <label class="text-base text-gray">Style</label>
-                <div class="flex items-center py-3">
-                    <p-dropdown [options]="language" optionLabel="name"></p-dropdown>
-                </div>
+        <div class="pt-6">
+            <div class="flex flex-wrap">
+                @for(item of result;track item){
+                <img src="../../../assets/images/download.jpg" alt="" srcset="">
+                }
             </div>
         </div>
     </div>
-    <div class="pt-6">
-        <div class="flex flex-wrap">
-            <img src="../../../assets/images/download.jpg" alt="" srcset="">
-        </div>
+</form>
+} @else if (activeItem?.label === 'Gallery'){
+<div class="image-gallery">
+    @for(imageUrl of imageGallery;track imageUrl){
+    <div class="gallery-item">
+        <p-image [src]="imageUrl" alt="Image" width="250"
+            [preview]="true" />
     </div>
+    }
 </div>
+}

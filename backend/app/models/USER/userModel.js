@@ -86,18 +86,11 @@ const User = {
     const rolesJson = JSON.stringify(roles);
     const permissionJson = JSON.stringify(permission);
     const hashedPassword = await bcrypt.hash(password, 10);
-    try {
-      await db.query("INSERT INTO users (name, surname, email, phone_number, account_status, password, locationName, address, state, city, zipcode, county, tenant_id, role, permission) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [name, surname, email, phoneNumber, account_status, hashedPassword, locationName, address, state, city, zipcode, county, tenant_id, rolesJson, permissionJson]);
-    } catch (error) {
-      throw new Error(`Error creating user: ${error.message}`);
-    }
+    await db.query("INSERT INTO users (name, surname, email, phone_number, account_status, password, locationName, address, state, city, zipcode, county, tenant_id, role, permission) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [name, surname, email, phoneNumber, account_status, hashedPassword, locationName, address, state, city, zipcode, county, tenant_id, rolesJson, permissionJson]);
   },
 
 
-
-
   get: async ({ tenantId, page = 1, limit = 10, sort, search }) => {
-    try {
       page = parseInt(page);
       limit = parseInt(limit);
       const offset = (page - 1) * limit;
@@ -121,16 +114,10 @@ const User = {
 
       query += " LIMIT ? OFFSET ?";
       queryParams.push(limit, offset);
-
       const [users] = await db.query(query, queryParams);
-
       const [totalCountResult] = await db.query("SELECT COUNT(*) AS count FROM users WHERE tenant_id = ? AND delete_status = 0", [tenantId]);
       const totalCount = totalCountResult[0].count;
-
       return { users, total: totalCount, page, totalPages: Math.ceil(totalCount / limit) };
-    } catch (error) {
-      throw error;
-    }
   },
 
   updateEmailVerify: async (data) => {
@@ -152,7 +139,7 @@ const User = {
   updateEmail: async (userId, newEmail, tenantId) => {
     await db.query("UPDATE users SET email = ? WHERE id = ? AND tenant_id = ?", [newEmail, userId, tenantId]);
   },
-  
+
   updateStatus: async (id, tenantId, activeStatus) => {
     await db.query("UPDATE users SET account_status = ? WHERE id = ? AND tenant_id = ?", [activeStatus, id, tenantId]);
   },

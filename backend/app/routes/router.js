@@ -7,8 +7,10 @@ const planController = require('../controllers/USER/planController');
 const roleController = require('../controllers/USER/roleController');
 const userController = require('../controllers/USER/userController');
 const locationController = require('../controllers/locationController');
-const brandingController = require('../controllers/brandingController');
+const brandingController = require('../controllers/USER/brandingController');
 const promptsController = require('../controllers/Promote/promptsController');
+const platformController = require('../controllers/Platform/platformController');
+const aiPlatformController = require('../controllers/Platform/aiPlatformController');
 const checkAuth = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -20,7 +22,7 @@ router.post('/categories/delete/:id', checkAuth, categoryController.deleteCatego
 router.post('/question/', checkAuth, questionController.getQuestions);
 router.post('/question/getAllQuestions', checkAuth, questionController.getAllQuestions);
 router.post('/question/create', checkAuth, questionController.createQuestion);
-router.post('/question/delete/:id', checkAuth, questionController.createQuestion);
+router.post('/question/delete/:id', checkAuth, questionController.deleteQuestion);
 
 router.post('/personas/', checkAuth, personController.getPersonas);
 router.post('/personas/getAllPersonas', checkAuth, personController.getAllPersonas);
@@ -79,5 +81,10 @@ router.post('/branding', checkAuth, brandingController.updateBranding);
 router.get('/branding', checkAuth, brandingController.getBranding);
 router.post('/branding/colors', checkAuth, brandingController.updateColor);
 router.get('/branding/colors', brandingController.getColors);
+
+
+router.get('/platform/getUserCategories', platformController.getUserCategories);
+router.get('/platform/getPrompts/:id', platformController.getPrompts);
+router.post('/platform/generateImage', aiPlatformController.generateImage);
 
 module.exports = router;

@@ -22,9 +22,9 @@ import { AISolutionService } from '../../../service/ai-solution.service';
 })
 export class PromptsComponent implements OnInit {
   searchText: string = '';
-  status:string='';
-  type:string='';
-  category:string='';
+  status: string | null = 'null';
+  type: string | null = 'null';
+  category: string | null = 'null';
   displayDialog: boolean = false;
   data: any[] = [];
   page: number = 1;
@@ -43,7 +43,7 @@ export class PromptsComponent implements OnInit {
     persona: new FormControl('', Validators.required),
     prompt: new FormControl(''),
   });
-  newQuestion: string='';
+  newQuestion: string = '';
   addquestions: any[] = [];
   questions: any[] = [];
   categories: any[] = [];
@@ -57,7 +57,7 @@ export class PromptsComponent implements OnInit {
     this.getPrompts();
     this.getAllPersonasCategoriesQuestions();
   }
-  
+
   getAllPersonasCategoriesQuestions() {
     this.aISolutionService.getAllPersonasCategoriesQuestions().subscribe((res: any) => {
       if (res.status == 200) {
@@ -72,12 +72,12 @@ export class PromptsComponent implements OnInit {
     if (this.newQuestion) {
       const selectedQuestion = this.questions.find(q => q.id === Number(this.newQuestion));
       if (selectedQuestion) {
-        this.addquestions.push(selectedQuestion); 
-        this.newQuestion = ''; 
+        this.addquestions.push(selectedQuestion);
+        this.newQuestion = '';
       }
     }
   }
-  
+
   getQuestionChange(event: any) {
     this.newQuestion = event.target.value;
   }
@@ -85,15 +85,15 @@ export class PromptsComponent implements OnInit {
   removeQuestion(index: number) {
     this.questions.splice(index, 1);
   }
-  
+
   onDragStart(event: DragEvent, index: number) {
     event.dataTransfer?.setData('index', index.toString());
   }
-  
+
   onDragOver(event: DragEvent) {
     event.preventDefault();
   }
-  
+
   onDrop(event: DragEvent, newIndex: number) {
     const prevIndex = parseInt(event.dataTransfer?.getData('index') || '', 10);
     if (prevIndex >= 0 && prevIndex !== newIndex) {
@@ -117,9 +117,9 @@ export class PromptsComponent implements OnInit {
 
   save() {
     if (this.promptForm.valid && this.addquestions.length) {
-      const rawValue:any = this.promptForm.getRawValue();
+      const rawValue: any = this.promptForm.getRawValue();
       rawValue.id = this.id,
-      rawValue.questionList = this.addquestions
+        rawValue.questionList = this.addquestions
       this.aISolutionService.addAndUpdatePrompts(rawValue).subscribe((res: any) => {
         if (res.status == 201) {
           this.displayDialog = false;
@@ -133,18 +133,21 @@ export class PromptsComponent implements OnInit {
 
   getPrompts() {
     this.loading = true;
-    this.aISolutionService.getPrompts(this.page, this.limit, this.sort, this.searchText).subscribe((response) => {
-        if (response.status === 200) {
-          this.data = response.res.prompts;
-          this.data = this.data.map((item: any) => ({...item,checkbox: false}));
-          this.totalRecords = response.res.total;
-        }
-        this.loading = false;
-      });
+    const status = (this.status && this.status !== '' && this.status !== 'null') ? this.status : null;
+    const type = (this.type && this.type !== '' && this.type !== 'null') ? this.type : null;
+    const category = (this.category && this.category !== '' && this.category !== 'null') ? this.category : null;
+    this.aISolutionService.getPrompts(this.page, this.limit, this.sort, this.searchText, status, type, category).subscribe((response) => {
+      if (response.status === 200) {
+        this.data = response.res.prompts;
+        this.data = this.data.map((item: any) => ({ ...item, checkbox: false }));
+        this.totalRecords = response.res.total;
+      }
+      this.loading = false;
+    });
   }
 
   onPageChange(event: any) {
-    this.page = event.page + 1;
+    this.page = event.first == 0 ? 1 : (event.first / event.rows) + 1;
     this.limit = event.rows;
     this.getPrompts();
   }
@@ -154,17 +157,19 @@ export class PromptsComponent implements OnInit {
     this.getPrompts();
   }
 
-  getCategory(option:any){
-    if(this.categories.length>0){
-      return this.categories.find(e=>e.id ==option).name
+  getCategory(option: any) {
+    if (this.categories.length > 0) {
+      return this.categories.find(e => e.id == option).name;
+    }
+  }
+  
+  getQuestionName(id:number){
+    if (this.questions.length > 0) {
+      return this.questions.find(e => e.id == id).question_text;
     }
   }
 
-  toggleAllSelection(event: any) {
-    const isChecked = event.checked;
-    this.data = this.data.map((item: any) => ({
-      ...item,
-      checkbox: isChecked,
-    }));
+  getStatusClass(status: number): string {
+    return Number(status) === 1 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
   }
 }

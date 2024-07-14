@@ -2,39 +2,27 @@ const db = require('../../../db/config');
 
 const Plan = {
   get: async ({ user_id, page = 1, limit = 10, sort, search }) => {
-    try {
-      page = parseInt(page);
-      limit = parseInt(limit);
-      const offset = (page - 1) * limit;
-      let query = 'SELECT * FROM plans WHERE user_id = ?';
-      const queryParams = [user_id];
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const offset = (page - 1) * limit;
+    let query = 'SELECT * FROM plans WHERE user_id = ?';
+    const queryParams = [user_id];
 
-      if (search) {
-        query += ' AND name LIKE ?';
-        queryParams.push(`%${search}%`);
-      }
-
-      if (sort) {
-        const sortOrder = sort.startsWith('-') ? 'DESC' : 'ASC';
-        const sortBy = sort.replace(/^-/, '');
-        query += ` ORDER BY ${sortBy} ${sortOrder}`;
-      }
-
-      query += ' LIMIT ? OFFSET ?';
-      queryParams.push(limit, offset);
-
-      const [plans] = await db.query(query, queryParams);
-      const [totalCount] = await db.query('SELECT COUNT(*) AS count FROM plans WHERE user_id = ?', [user_id]);
-
-      return {
-        plans,
-        total: totalCount[0].count,
-        page,
-        totalPages: Math.ceil(totalCount[0].count / limit)
-      };
-    } catch (error) {
-      throw error;
+    if (search) {
+      query += ' AND name LIKE ?';
+      queryParams.push(`%${search}%`);
     }
+
+    if (sort) {
+      const sortOrder = sort.startsWith('-') ? 'DESC' : 'ASC';
+      const sortBy = sort.replace(/^-/, '');
+      query += ` ORDER BY ${sortBy} ${sortOrder}`;
+    }
+    query += ' LIMIT ? OFFSET ?';
+    queryParams.push(limit, offset);
+    const [plans] = await db.query(query, queryParams);
+    const [totalCount] = await db.query('SELECT COUNT(*) AS count FROM plans WHERE user_id = ?', [user_id]);
+    return { plans, total: totalCount[0].count, page, totalPages: Math.ceil(totalCount[0].count / limit) };
   },
 
   create: async (planData, user_id) => {

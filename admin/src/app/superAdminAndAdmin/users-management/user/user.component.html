@@ -21,9 +21,7 @@
         [sortMode]="'multiple'" (onSort)="onSort($event)">
         <ng-template pTemplate="header">
             <tr>
-                <th class="px-4 py-2">
-                    <p-checkbox (onChange)="toggleAllSelection($event)" binary="true"></p-checkbox>
-                </th>
+                <th class="px-4 py-2" style="width: 4rem"><p-tableHeaderCheckbox /></th>
                 <th class="px-4 py-2" pSortableColumn="name">First Name <p-sortIcon field="name"
                         class="inline-block"></p-sortIcon></th>
                 <th class="px-4 py-2" pSortableColumn="surname">Last Name <p-sortIcon field="name"
@@ -39,8 +37,7 @@
         <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
             <tr>
                 <td class="px-4 py-2">
-                    <p-checkbox binary="true" (onChange)="isSelected($event)"
-                        [(ngModel)]="rowData.checkbox"></p-checkbox>
+                    <p-tableCheckbox [value]="rowData" />
                 </td>
                 <td class="px-4 py-2">{{rowData.name}}</td>
                 <td class="px-4 py-2">{{rowData.surname}}</td>

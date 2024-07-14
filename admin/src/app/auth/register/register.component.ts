@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../service/user.service';
-import { CommentLogComponent } from '../../user/comment-log/comment-log.component';
+import { CommentLogComponent } from '../comment-log/comment-log.component';
 
 @Component({
   selector: 'app-register',

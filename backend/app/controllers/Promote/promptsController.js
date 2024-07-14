@@ -6,9 +6,9 @@ const Question = require('../../models/Promote/questionModel');
 const promptsController = {
   getAllPrompts: async (req, res) => {
     const userId = parseInt(req.query.userId);
-    const { page, limit, sort, search } = req.query;
+    const { page, limit, sort, search, status, type, category } = req.body;
     try {
-      const promptData = { page, limit, sort, search };
+      const promptData = { page, limit, sort, search, status, type, category};
       const resData = await Prompt.getAll(promptData,userId);
       res.status(200).json({ status: 200, res: resData, error: null });
     } catch (error) {

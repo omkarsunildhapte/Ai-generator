@@ -102,7 +102,7 @@ export class PermissionComponent implements OnInit {
   }
 
   onPageChange(event: any) {
-    this.page = event.page + 1;
+    this.page = event.first==0 ? 1 : (event.first/event.rows)+1;
     this.limit = event.rows;
     this.getPermission();
   }
@@ -110,13 +110,5 @@ export class PermissionComponent implements OnInit {
   onSort(event: any) {
     this.sort = event.multisortmeta[0].order === 1 ? 'name' : '-name';
     this.getPermission();
-  }
-
-  toggleAllSelection(event: any) {
-    const isChecked = event.checked;
-    this.data = this.data.map((item: any) => ({
-      ...item,
-      checkbox: isChecked,
-    }));
   }
 }

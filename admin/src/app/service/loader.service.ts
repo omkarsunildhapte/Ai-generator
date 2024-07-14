@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoaderService {
-  private loading = false;
+  loading = false;
   
   showLoadingSpinner() {
     this.loading = true;

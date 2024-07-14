@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const User = require('../../models/USER/userModel');
 const Role = require('../../models/USER/rolesModel');
-const Brand = require('../../models/brandingModel');
+const Brand = require('../../models/USER/brandingModel');
 const bcrypt = require('bcrypt');
 const { updatePassword, sendEmailVerification, sendOtp } = require('../../services/emailService');
 const { generateOtp, generateRandomPassword, generateToken } = require('../../services/otpService');

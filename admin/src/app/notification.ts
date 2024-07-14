@@ -8,7 +8,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   standalone: true,
   template: `
   <p-toast></p-toast>
-  <!-- <p-confirmDialog></p-confirmDialog> -->
   `,
   imports: [ToastModule,MessagesModule,MessageModule],
   providers: [MessageService, ConfirmationService]

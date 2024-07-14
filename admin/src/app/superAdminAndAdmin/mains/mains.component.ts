@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarModule } from 'primeng/sidebar';
 import { UserService } from '../../service/user.service';
@@ -10,17 +10,19 @@ import { UserService } from '../../service/user.service';
   templateUrl: './mains.component.html',
   styleUrl: './mains.component.scss'
 })
-export class MainsComponent {
+export class MainsComponent implements OnInit{
   sidebarVisible: boolean = true;
   userService = inject(UserService)
   menuItems = [
-    { title: 'Dashboard', link: '/dashboard', icon: 'pi-gauge' },
+    { title: 'Dashboard', link: '/main/dashboard', icon: 'pi-gauge' },
     {
       title: 'AI SOLUTIONS', submenu: [
         { title: 'Categories', link: '/main/ai-solution/categories', icon: 'pi-tags' },
         { title: 'Questions', link: '/main/ai-solution/questions', icon: 'pi-question-circle' },
         { title: 'Personas', link: '/main/ai-solution/personas', icon: 'pi-home' },
         { title: 'Prompts', link: '/main/ai-solution/prompts', icon: 'pi-key' },
+        { title: 'Bot Categories', link: '/main/ai-solution/categories', icon: 'pi-tags' },
+        { title: 'Bot Prompts', link: '/main/ai-solution/categories', icon: 'pi-tags' },
         { title: 'Settings', link: '/main/ai-solution/settings', icon: 'pi-cog' }
       ]
     },
@@ -38,8 +40,10 @@ export class MainsComponent {
       ]
     },
     {
-      title: 'CMS', submenu: [
-        { title: 'Content management', link: '/content-management', icon: 'pi-address-book' }
+      title: 'Content management', submenu: [
+        { title: 'Categories', link: '/main/ai-solution/categories', icon: 'pi-tags' },
+        { title: 'Tags', link: '/main/ai-solution/categories', icon: 'pi-tags' },
+        { title: 'Pages', link: '/main/ai-solution/categories', icon: 'pi-tags' },
       ]
     },
     {
@@ -51,4 +55,12 @@ export class MainsComponent {
       ]
     }
   ];
+  languages:any[]=[];
+  ngOnInit(): void {
+    this.userService.getLanguages().subscribe((res: any) => {
+      if (res.status == 200) {
+        this.languages = res.res;
+      }
+    });
+  }
 }

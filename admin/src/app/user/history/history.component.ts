@@ -83,7 +83,6 @@ actionItems = [
   }
 
   onActiveItemChange(event: MenuItem) {
-    debugger
     this.activeItem = event;
   }
 

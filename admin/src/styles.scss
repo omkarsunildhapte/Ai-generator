@@ -36,3 +36,5 @@
 ::ng-deep .p-inputtext:enabled:focus {
   box-shadow: none !important;
 }
+@import "../node_modules/quill/dist/quill.core.css";
+@import "../node_modules/quill/dist/quill.snow.css";

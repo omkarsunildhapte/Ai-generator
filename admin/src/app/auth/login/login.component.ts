@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { InputOtpModule } from 'primeng/inputotp';
-import { CommentLogComponent } from '../../user/comment-log/comment-log.component';
+import { CommentLogComponent } from '../comment-log/comment-log.component';
 import { UserService } from '../../service/user.service';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';

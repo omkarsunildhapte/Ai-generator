@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class AISolutionService {
   http = inject(HttpClient);
 
-  getCategorie(page: number, limit: number, sort: string, search: string, status: number): Observable<any> {
+  getCategorie(page: number, limit: number, sort: string, search: string, status: number|null): Observable<any> {
     const body = { page, limit, sort, search, status };
     return this.http.post<any>(`${environment.apiUrl}/categories/`, body);
   }
@@ -26,7 +26,7 @@ export class AISolutionService {
     return this.http.post<any>(`${environment.apiUrl}/categories/delete/${id}`, null);
   }
 
-  getQuestion(page: number, limit: number, sort: string, search: string, required: string, type: string): Observable<any> {
+  getQuestion(page: number, limit: number, sort: string, search: string, required: string |null, type: string |null): Observable<any> {
     const body = { page, limit, sort, search, required, type };
     return this.http.post<any>(`${environment.apiUrl}/question/`,body);
   }
@@ -60,9 +60,9 @@ export class AISolutionService {
     return this.http.post<any>(`${environment.apiUrl}/personas/delete/${id}`, null);
   }
 
-  getPrompts(page: number, limit: number, sort: string, search: string): Observable<any> {
-    const body = { page, limit, sort, search, status };
-    return this.http.post<any>(`${environment.apiUrl}/prompts/`,body);
+  getPrompts(page: number, limit: number, sort: string, search: string, status: string | null, type: string | null, category: string | null): Observable<any> {
+    const body = { page, limit, sort, search, status, type, category };
+    return this.http.post<any>(`${environment.apiUrl}/prompts/`, body);
   }
 
   getAllPrompts(): Observable<any> {

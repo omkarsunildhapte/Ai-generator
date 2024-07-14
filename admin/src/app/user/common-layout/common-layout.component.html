@@ -1,5 +1,5 @@
 <div class="flex">
-    <div class="h-full overflow-y-auto bg-white w-3/12">
+    <div class="h-screen overflow-y-auto bg-white w-[28vw] border-e-2">
         <div class="p-8">
           <div class="bg-gray-100 rounded-3xl p-6">
             <div class="text-sm text-gray pb-5 text-gray">Your plan - Free</div>
@@ -21,88 +21,91 @@
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">DASHBOARD</div>
-          <div class="flex items-center gap-8 pb-3" (click)="goPath('library')">
+          <div class="flex items-center gap-8 pb-3" (click)="goPath('/user/library')">
             <img src="../../../assets/images/book.svg" alt="book-icon" />
             <div class="text-sm text-gray" >Library</div>
           </div>
-          <div class="flex items-center gap-8 pb-3" (click)="goPath('history')">
+          <div class="flex items-center gap-8 pb-3" (click)="goPath('/user/history')">
             <img src="../../../assets/images/newspaper.svg" alt="notes" />
             <div class="text-sm text-gray" >History</div>
           </div>
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">FAVOURITES</div>
-          <div class="flex items-center gap-8 pb-3">
+          <!-- <div class="flex items-center gap-8 pb-3">
             <img src="../../../assets/images/shock.svg" alt="shock" />
             <div class="text-sm text-gray">Blog Title Generator</div>
-          </div>
-          <div class="flex items-center gap-8 pb-3">
-            <img src="../../../assets/images/shock.svg" alt="shock" />
-            <div class="text-sm text-gray">1 Click Blog Post</div>
-          </div>
+          </div> -->
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">TOOLS</div>
-          <ng-container *ngFor="let item of tools_data;let i=index" >
-
-            <div class="flex justify-between w-100">
-              <div class="flex items-center gap-3 pb-3">
+          @for(item of tools_data;track item;let i =$index){
+            <div class="flex justify-between w-100" (click)="showValues(i)">
+              <div class="flex items-center gap-3 pb-3 cursor-pointer">
                 <img [src]="i % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'" alt="shock" />
-                <div class="text-gray text-sm">{{ item.text }}</div>
+                <div class="text-gray text-sm">{{ item.name }}</div>
               </div>
-              <div class="flex items-center justify-center">
-                <div class="rounded-full bg-blue-200 text-gray-600 px-2 py-1 text-xs">{{ item.number }}</div>
-                <img src="../../../assets/images/arrow.svg" alt="arrow" (click)="showValues(i)" [ngStyle]="{'transform': item.active ? 'rotate(270deg)' : 'rotate(0deg)'}"/>
-              </div>
-            </div>
-            <div class="pl-3" *ngIf="item.active">
-              <div *ngFor="let subItem of item.subItem ;let j = index" class="flex justify-between w-100">
-                <div class="flex items-center gap-3 pb-3">
-                  <img [src]="j % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'"/>
-                  <div class="text-gray text-sm">{{ subItem.text }}</div>
-                </div>
+              <div class="flex items-center justify-center cursor-pointer">
+                <div class="rounded-full bg-blue-200 text-gray-600 px-2 py-1 text-xs">{{ item.categoryCount }}</div>
+                <img src="../../../assets/images/arrow.svg" alt="arrow"  [style]="{'transform': item.active ? 'rotate(270deg)' : 'rotate(0deg)'}"/>
               </div>
             </div>
-          </ng-container>
+            @if(item.active){
+              <div class="pl-3">
+                @for(subItem of item.categoryPrompts;track subItem;let j = $index){
+                  <div class="flex justify-between w-100" (click)="getRouter(subItem)">
+                    <div class="flex items-center gap-3 pb-3 cursor-pointer">
+                      <img [src]="j % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'"/>
+                      <div class="text-gray text-sm">{{ subItem.name }}</div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          }
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">CHAT</div>
-          <div class="flex items-center gap-3 pb-3">
+          <div class="flex items-center gap-3 pb-3 cursor-pointer"  routerLink="/user/chats">
             <img src="../../../assets/images/newspaper.svg" alt="shock" />
             <div class="text-gray text-sm">Chat with AI Assistant</div>
           </div>
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">IMAGE CREATION</div>
-          <div class="flex items-center gap-3 pb-3">
+          <div class="flex items-center gap-3 pb-3 cursor-pointer" routerLink="/user/imagegenerate">
             <img src="../../../assets/images/book.svg" alt="book-icon" />
             <div class="text-gray text-sm">Create New Image</div>
           </div>
-          <div class="flex items-center gap-3 pb-3">
+          <div class="flex items-center gap-3 pb-3 cursor-pointer" routerLink="/user/gallery">
             <img src="../../../assets/images/newspaper.svg" alt="notes" />
             <div class="text-gray text-sm">Gallery</div>
           </div>
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">1 CLICK CONTENT</div>
-          <div *ngFor="let item of click_data ;let i = index" class="flex justify-between w-100">
-            <div class="flex items-center gap-3 pb-3">
-              <img [src]="i % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'"/>
-              <div class="text-gray text-sm">{{ item.text }}</div>
+          @for(item of click_data;track item;let i = $index){
+            <div  class="flex justify-between w-100">
+              <div class="flex items-center gap-3 pb-3 cursor-pointer">
+                <img [src]="i % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'"/>
+                <div class="text-gray text-sm">{{ item.text }}</div>
+              </div>
             </div>
-          </div>
+          }
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">ACCOUNT</div>
-          <div *ngFor="let item of account_data ;let i=index" class="flex justify-between w-100">
-            <div class="flex items-center gap-3 pb-3">
-              <img [src]="i % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'" alt="shock" />
-              <div class="text-gray text-sm">{{ item.text }}</div>
+          @for(item of account_data;track item;let i = $index){
+            <div  class="flex justify-between w-100">
+              <div class="flex items-center gap-3 pb-3 cursor-pointer" [routerLink]="item.link">
+                <img [src]="i % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'" alt="shock" />
+                <div class="text-gray text-sm">{{ item.text }}</div>
+              </div>
             </div>
-          </div>
+          }
         </div>
       </div>
-    <div class="flex flex-col" style="width:75vw">
+    <div class="flex flex-col w-full">
       <app-header></app-header>
         <router-outlet></router-outlet>
     </div>

@@ -147,7 +147,7 @@ export class RolesComponent implements OnInit {
   }
 
   onPageChange(event: any) {
-    this.page = event.page + 1;
+    this.page = event.first==0 ? 1 : (event.first/event.rows)+1;
     this.limit = event.rows;
     this.getRoles();
   }
@@ -155,13 +155,5 @@ export class RolesComponent implements OnInit {
   onSort(event: any) {
     this.sort = event.multisortmeta[0].order === 1 ? 'name' : '-name';
     this.getRoles();
-  }
-
-  toggleAllSelection(event: any) {
-    const isChecked = event.checked;
-    this.rolesList = this.rolesList.map((item: any) => ({
-      ...item,
-      checkbox: isChecked,
-    }));
   }
 }
