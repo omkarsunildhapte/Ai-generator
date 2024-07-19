@@ -1,19 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
-import { PermisssionService } from '../../../service/permisssion.service';
+import { AdminServies } from '../../../service/admin.service';
 
 @Component({
   selector: 'app-permission',
   standalone: true,
   imports: [
-    CheckboxModule,
     FormsModule,
     TableModule,
     DialogModule,
@@ -26,14 +24,14 @@ import { PermisssionService } from '../../../service/permisssion.service';
   styleUrl: './permission.component.scss',
 })
 export class PermissionComponent implements OnInit {
-  permissionService = inject(PermisssionService);
+  permissionService = inject(AdminServies);
   data: any[] = [];
   displayDialog: boolean = false;
   searchText: string = '';
-  permisssionName: string = '';
+  permissionName: string = '';
   id: number = 0;
   page: number = 1;
-  limit: number = 5;
+  limit: number = 10;
   sort: string = 'name';
   loading: boolean = false;
   totalRecords: number = 0;
@@ -45,9 +43,7 @@ export class PermissionComponent implements OnInit {
 
   getPermission() {
     this.loading = true;
-    this.permissionService
-      .getPermissions(this.page, this.limit, this.sort, this.searchText)
-      .subscribe((response) => {
+    this.permissionService.getPermissions(this.page, this.limit, this.sort, this.searchText).subscribe((response) => {
         if (response.status === 200) {
           this.data = response.res.permissions;
           this.data = this.data.map((item: any) => ({
@@ -62,19 +58,17 @@ export class PermissionComponent implements OnInit {
 
   save() {
     const body = {
-      name: this.permisssionName,
+      name: this.permissionName,
       is_default: this.isDefault ? 1 : 0,
       id: this.id,
     };
     if (body) {
-      this.permissionService.addAndUpdate(body).subscribe(
+      this.permissionService.addAndUpdatePermission(body).subscribe(
         (res: any) => {
           if (res.status == 201) {
             this.displayDialog = false;
             this.getPermission();
-            this.permisssionName = '';
-            this.isDefault = false;
-            this.id = 0;
+            this.close();
           } else {
           }
         },
@@ -86,23 +80,21 @@ export class PermissionComponent implements OnInit {
   }
 
   deleteData(rowData: any) {
-    this.permissionService
-      .deletePermissions(rowData.id)
-      .subscribe((res: any) => {
-        if (res.status == 200) {
-          this.getPermission();
-        }
-      });
+    this.permissionService.deletePermissions(rowData.id).subscribe((res: any) => {
+      if (res.status == 200) {
+        this.getPermission();
+      }
+    });
   }
 
   editData(rowData: any) {
     this.displayDialog = true;
     this.id = rowData.id;
-    this.permisssionName = rowData.name;
+    this.permissionName = rowData.name;
   }
 
   onPageChange(event: any) {
-    this.page = event.first==0 ? 1 : (event.first/event.rows)+1;
+    this.page = event.first == 0 ? 1 : (event.first / event.rows) + 1;
     this.limit = event.rows;
     this.getPermission();
   }
@@ -110,5 +102,11 @@ export class PermissionComponent implements OnInit {
   onSort(event: any) {
     this.sort = event.multisortmeta[0].order === 1 ? 'name' : '-name';
     this.getPermission();
+  }
+
+  close(){
+    this.permissionName = '';
+    this.isDefault = false;
+    this.id = 0;
   }
 }

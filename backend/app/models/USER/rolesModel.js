@@ -30,21 +30,24 @@ const Role = {
     },
 
     create: async (roleData, userId) => {
-        const { name, permissions } = roleData;
-        await db.query('INSERT INTO roles (name, user_id, permissions) VALUES (?, ?, ?)', [name, userId, JSON.stringify(permissions)]);
+        const { name, permission, status } = roleData;
+        await db.query('INSERT INTO roles (name, user_id, permissions, isDefault) VALUES (?, ?, ?, ?)', [name, userId, JSON.stringify(permission),status]);
     },
 
     update: async (roleData, updatedBy) => {
-        const { id, name, permissions } = roleData;
-        await db.query('UPDATE roles SET name = ?, permissions = ?, updated_by = ? WHERE id = ?', [name, JSON.stringify(permissions), updatedBy, id]);
+        const { id, name, permission, status } = roleData;
+        await db.query('UPDATE roles SET name = ?, permissions = ?, updated_by = ?, isDefault = ? WHERE id = ?', [name, JSON.stringify(permission), updatedBy, status, id]);
     },
+
     delete: async (id) => {
         await db.query('DELETE FROM roles WHERE id = ?', [id]);
     },
+
     findAllByUserId: async (userId) => {
         const [roles] = await db.query('SELECT * FROM roles WHERE user_id = ?', [userId]);
         return roles;
     },
+    
     getPermissionsByRoleId: async (roleId) => {
         const [roles] = await db.query('SELECT * FROM roles WHERE id = ?', [roleId]);
         return roles.map(permission => permission.permissions);

@@ -86,8 +86,9 @@ export class LoginComponent {
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: res.error });
           }
-        },
+        },  
         (error: any) => {
+          debugger
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'An error occurred' });
         }
       );

@@ -131,7 +131,9 @@
               <select name="county" formControlName="county" (change)="onCountryChange()"
                 class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg">
                 <option value="">Select Country</option>
-                <option [value]="country.code" *ngFor="let country of countries">{{country.name}}</option>
+                @for(country of countries;track country){
+                  <option [value]="country.code">{{country.name}}</option>
+                }
               </select>
             </div>
             @if( isSubmit && f.county.invalid && f.county.touched){
@@ -148,7 +150,9 @@
               <select name="state" formControlName="state" (change)="onStateChange()"
                 class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg">
                 <option value="">Select State</option>
-                <option [value]="state.code" *ngFor="let state of states">{{state.name}}</option>
+                @for (state of states; track state) {
+                  <option [value]="state.code">{{state.name}}</option>
+                }
               </select>
             </div>
             @if( isSubmit && f.state.invalid && f.state.touched){
@@ -167,7 +171,9 @@
               <select name="city" formControlName="city"
                 class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg">
                 <option value="">Select City</option>
-                <option [value]="city" *ngFor="let city of cities">{{city}}</option>
+                @for(city of cities;track city){
+                  <option [value]="city">{{city}}</option>
+                }
               </select>
             </div>
             @if( isSubmit && f.city.invalid && f.city.touched){

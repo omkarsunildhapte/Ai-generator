@@ -35,6 +35,9 @@ const userController = {
       if (!(await bcrypt.compare(password, user.password))) {
         return res.status(401).json({ error: 'Invalid credentials', status: 401, res: null });
       }
+      if (user.delete_status === 1) {
+        return res.status(401).json({ status: 401, error: 'User Deleted from the System', res: null });
+      }
       const otp = generateOtp();
       const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
       await User.updateOtp(user.id,user.tenant_id,otp, otpExpiry);

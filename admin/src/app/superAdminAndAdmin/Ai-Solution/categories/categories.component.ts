@@ -1,19 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-import { AISolutionService } from '../../../service/ai-solution.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { AISolutionService } from '../../../service/ai-solution.service';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
   imports: [
-    CheckboxModule,
     FormsModule,
     TableModule,
     DialogModule,
@@ -110,7 +108,7 @@ export class CategoriesComponent implements OnInit {
     this.loading = true;
     const status =
       this.isDefaultFilter === 'true' ? 1 : this.isDefaultFilter === 'false' ? 0 : null;
-    this.categorieService.getCategorie(this.page, this.limit, this.sort, this.searchText, status).subscribe((response) => {
+    this.categorieService.getCategories(this.page, this.limit, this.sort, this.searchText, status).subscribe((response) => {
       if (response.status === 200) {
         this.data = response.res.categories;
         this.data = this.data.map((item: any) => ({

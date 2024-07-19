@@ -1,25 +1,23 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-import { NewUsersComponent } from './new-users/new-users.component';
+import { forkJoin } from 'rxjs';
 import { UserService } from '../../../service/user.service';
+import { NewUsersComponent } from './new-users/new-users.component';
 import { UpdateEmailComponent } from './update-email/update-email.component';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
-import { RolesService } from '../../../service/roles.service';
-import { forkJoin } from 'rxjs';
+import { AdminServies } from '../../../service/admin.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CheckboxModule,
     FormsModule,
     TableModule,
     DialogModule,
@@ -52,11 +50,11 @@ export class UserComponent implements OnInit {
   sort: string = 'name';
   loading: boolean = false;
   totalRecords: number = 0;
-  rolesService = inject(RolesService);
+  rolesService = inject(AdminServies);
   ngOnInit(): void {
     forkJoin({
       res: this.userService.getUsers(1, 5, 'name',''),
-      res1: this.rolesService.findAllByUserId(),
+      res1: this.rolesService.findAllByUserIdRoles(),
     }).subscribe((response: any) => {
       if(response.res.status ==200){
         this.data = response.res.res.users;

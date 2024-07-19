@@ -21,7 +21,7 @@ export class MainsComponent implements OnInit{
         { title: 'Questions', link: '/main/ai-solution/questions', icon: 'pi-question-circle' },
         { title: 'Personas', link: '/main/ai-solution/personas', icon: 'pi-home' },
         { title: 'Prompts', link: '/main/ai-solution/prompts', icon: 'pi-key' },
-        { title: 'Bot Categories', link: '/main/ai-solution/categories', icon: 'pi-tags' },
+        { title: 'Bot Categories', link: '/main/ai-solution/botcategories', icon: 'pi-tags' },
         { title: 'Bot Prompts', link: '/main/ai-solution/categories', icon: 'pi-tags' },
         { title: 'Settings', link: '/main/ai-solution/settings', icon: 'pi-cog' }
       ]

@@ -1,20 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ChipsModule } from 'primeng/chips';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
-import { AISolutionService } from '../../../service/ai-solution.service';
 import { ToastModule } from 'primeng/toast';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { AISolutionService } from '../../../service/ai-solution.service';
 
 @Component({
   selector: 'app-questions',
   standalone: true,
   imports: [
-    CheckboxModule,
     FormsModule,
     TableModule,
     DialogModule,
@@ -104,12 +102,16 @@ export class QuestionsComponent implements OnInit {
     this.questionServies.addAndUpdateQuestion(body).subscribe((res: any) => {
       if (res.status == 201) {
         this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: res.res.message });
-        this.displayDialog = false;
         this.getQuestion();
-        this.questionForm.reset();
-        this.id = 0;
+       this.close();
       }
     });
+  }
+
+  close(){
+    this.displayDialog = false;
+    this.questionForm.reset();
+    this.id = 0;
   }
 
   getQuestion() {

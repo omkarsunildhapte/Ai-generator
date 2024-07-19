@@ -11,7 +11,9 @@ const checkAuth = async (req, res, next) => {
 
   try {
     let user = await User.findOut(userId, tenantId);
-
+    console.log('userId',userId,)
+    console.log('tenantId',tenantId,)
+    console.log('user',user,)
     if (!user || user.length === 0) {
       return res.status(401).json({ status: 401, error: 'User not found', res: null });
     }

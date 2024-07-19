@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
@@ -10,7 +9,6 @@ import { AISolutionService } from '../../../service/ai-solution.service';
   selector: 'app-prompts',
   standalone: true,
   imports: [
-    CheckboxModule,
     FormsModule,
     TableModule,
     DialogModule,
@@ -28,7 +26,7 @@ export class PromptsComponent implements OnInit {
   displayDialog: boolean = false;
   data: any[] = [];
   page: number = 1;
-  limit: number = 5;
+  limit: number = 10;
   sort: string = 'name';
   loading: boolean = false;
   totalRecords: number = 0;
@@ -105,6 +103,26 @@ export class PromptsComponent implements OnInit {
   editData(rowData: any) {
     this.displayDialog = true;
     this.id = rowData.id;
+    this.promptForm.patchValue({
+      name: rowData.name,
+      status: rowData.status,
+      type: rowData.type,
+      description: rowData.description,
+      engine: rowData.engine,
+      max_tokens: rowData.max_tokens,
+      category: rowData.category,
+      persona: rowData.persona,
+      prompt: rowData.prompt
+  });
+  if (rowData.question_list && rowData.question_list.length>0){
+    this.addquestions=[];
+    rowData.question_list.forEach((question:any) => {
+    const questionShow = this.questions.find(e=>e.id==question.id);
+      if (questionShow){
+        this.addquestions.push(questionShow)
+      }
+    });
+  }
   }
 
   deleteData(rowData: any) {
@@ -119,16 +137,20 @@ export class PromptsComponent implements OnInit {
     if (this.promptForm.valid && this.addquestions.length) {
       const rawValue: any = this.promptForm.getRawValue();
       rawValue.id = this.id,
-        rawValue.questionList = this.addquestions
+      rawValue.questionList = this.addquestions.map(e=>e.id);
       this.aISolutionService.addAndUpdatePrompts(rawValue).subscribe((res: any) => {
         if (res.status == 201) {
-          this.displayDialog = false;
           this.getPrompts();
-          this.promptForm.reset();
-          this.id = 0;
+          this.close();
         }
       });
     }
+  }
+  
+  close(){
+    this.displayDialog = false;
+    this.promptForm.reset();
+    this.id = 0;
   }
 
   getPrompts() {

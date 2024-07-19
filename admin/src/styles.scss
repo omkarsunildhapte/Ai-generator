@@ -33,6 +33,13 @@
 .buttoncolor{
   background:linear-gradient(#865BD8,#4FA7BA);
 }
+.textcolor{
+  background: linear-gradient(45deg, #865BD8, #4FA7BA);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;   
+  background-clip: text;        
+  color: transparent;  
+}
 ::ng-deep .p-inputtext:enabled:focus {
   box-shadow: none !important;
 }

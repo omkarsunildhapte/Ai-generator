@@ -4,11 +4,11 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TableModule } from 'primeng/table';
-import { DropdownModule } from 'primeng/dropdown';
-import { PlanService } from '../../../service/plan.service';
+import { AdminServies } from '../../../service/admin.service';
 import { UserService } from '../../../service/user.service';
 
 @Component({
@@ -30,7 +30,7 @@ import { UserService } from '../../../service/user.service';
   styleUrl: './plans.component.scss',
 })
 export class PlansComponent implements OnInit{
-  planService = inject(PlanService);
+  planService = inject(AdminServies);
   userService = inject(UserService);
   data: any[] = [];
   currencies: any[] = [];
@@ -48,9 +48,10 @@ export class PlansComponent implements OnInit{
     description: new FormControl('', Validators.required),
     features: new FormControl('', Validators.required),
     type: new FormControl('', Validators.required),
+    default_plan: new FormControl(0, Validators.required),
     plan_type: new FormControl('', Validators.required),
-    price: new FormControl('', Validators.required),
-    currency_name: new FormControl('', Validators.required),
+    price: new FormControl(0, Validators.required),
+    currency_name: new FormControl('USD', Validators.required),
     word_limit: new FormControl('', Validators.required),
     image_limit: new FormControl('', Validators.required),
     seats_limit: new FormControl('', Validators.required),
@@ -58,6 +59,7 @@ export class PlansComponent implements OnInit{
     payment_api_key: new FormControl('', Validators.required),
     secret_key: new FormControl('', Validators.required),
   })
+  
   typeOptions = [
     { label: 'Paid', value: 'paid' },
     { label: 'Free', value: 'free' },
@@ -78,6 +80,23 @@ export class PlansComponent implements OnInit{
         this.currencies =res.res
       }
     })
+    this.planForm.get('type')?.valueChanges.subscribe(type => {
+      const priceControl = this.planForm.get('price');
+      const currencyNameControl = this.planForm.get('currency_name');
+      const defaultPlanControl = this.planForm.get('default_plan');
+      
+      if (type === 'free') {
+        priceControl?.clearValidators();
+        currencyNameControl?.clearValidators();
+      } else {
+        priceControl?.setValidators(Validators.required);
+        currencyNameControl?.setValidators(Validators.required);
+        defaultPlanControl?.clearValidators();
+      }
+      defaultPlanControl?.updateValueAndValidity();
+      priceControl?.updateValueAndValidity();
+      currencyNameControl?.updateValueAndValidity();
+    });
   }
 
   editData(rowData: any) {
@@ -97,7 +116,7 @@ export class PlansComponent implements OnInit{
   save() {
     if (this.planForm.valid) {
       let body:any = this.planForm.getRawValue();
-      body.id = this.id
+      body.id = this.id;
       
       this.planService.addAndUpdatePlan(body).subscribe((res: any) => {
         if (res.status == 201) {
@@ -112,9 +131,7 @@ export class PlansComponent implements OnInit{
 
   getPlan() {
     this.loading = true;
-    this.planService
-      .getPlan(this.page, this.limit, this.sort, this.searchText)
-      .subscribe((response) => {
+    this.planService.getPlan(this.page, this.limit, this.sort, this.searchText).subscribe((response) => {
         if (response.status === 200) {
           this.data = response.res.plans;
           this.data = this.data.map((item: any) => ({
@@ -126,6 +143,7 @@ export class PlansComponent implements OnInit{
         this.loading = false;
       });
   }
+  
   onPageChange(event: any) {
     this.page = event.first==0 ? 1 : (event.first/event.rows)+1;
     this.limit = event.rows;

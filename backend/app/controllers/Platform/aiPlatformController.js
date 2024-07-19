@@ -1,9 +1,7 @@
 const OpenAI = require('openai');
 require("dotenv").config();
 
-const openai = new OpenAI({
-  apiKey,
-});
+const openai = new OpenAI({apiKey: 'My API Key'});
 const generateImage = async (req, res) => {
   const { question, noOfImages, imageSize, style } = req.body;
   if (!question) {

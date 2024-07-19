@@ -19,6 +19,8 @@
     "express": "^4.19.2",
     "mysql2": "^3.10.0",
     "nodemailer": "^6.9.13",
-    "openai": "^4.52.7"
+    "openai": "^4.52.7",
+    "winston": "^3.13.1",
+    "winston-mysql": "^1.1.1"
   }
 }

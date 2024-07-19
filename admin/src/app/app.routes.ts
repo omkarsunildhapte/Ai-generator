@@ -1,9 +1,15 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './service/auth/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: '',
+    loadComponent: () => import('../app/landing-page/landing-page.component').then(m => m.LandingPageComponent)
+
+  },
   {
     path: 'main',
+    canActivate: [authGuard],
     loadComponent: () => import('./superAdminAndAdmin/mains/mains.component').then(m => m.MainsComponent),
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -34,6 +40,10 @@ export const routes: Routes = [
           {
             path: 'categories',
             loadComponent: () => import('./superAdminAndAdmin/Ai-Solution/categories/categories.component').then(m => m.CategoriesComponent)
+          },
+          {
+            path: 'botcategories',
+            loadComponent: () => import('./superAdminAndAdmin/Ai-Solution/bot-categories/bot-categories.component').then(m => m.BotCategoriesComponent)
           },
           {
             path: 'questions',

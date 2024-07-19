@@ -1,0 +1,48 @@
+.pricing-card {
+    position: relative;
+}
+
+.pricing-card:hover {
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.accordion-content.hidden {
+    display: none;
+}
+
+.accordion-header {
+    cursor: pointer;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.fade-in-up-1 {
+    animation-delay: 0.5s;
+}
+
+.fade-in-up-2 {
+    animation-delay: 1s;
+}
+
+.fade-in-up-3 {
+    animation-delay: 1.5s;
+}
+
+.fade-in-up-4 {
+    animation-delay: 2s;
+}

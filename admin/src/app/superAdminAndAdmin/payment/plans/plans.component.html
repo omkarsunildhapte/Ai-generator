@@ -16,8 +16,8 @@
   </div>
 
   <p-table [value]="data" [paginator]="true" [rows]="limit" [totalRecords]="totalRecords" [showCurrentPageReport]="true"
-    styleClass="p-datatable-gridlines" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    (onPage)="onPageChange($event)" [lazy]="true" [loading]="loading" [rowsPerPageOptions]="[5, 10, 25, 50, 100]"
+    styleClass="p-datatable-striped" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    (onPage)="onPageChange($event)" [lazy]="true" [loading]="loading" [rowsPerPageOptions]="[10, 25, 50, 100]"
     [sortMode]="'multiple'" (onSort)="onSort($event)">
     <ng-template pTemplate="header">
       <tr>
@@ -69,77 +69,118 @@
     </ng-template>
   </p-table>
 
-  <p-dialog header="{{id==0 ? 'Add Plan':'Edit Plan'}}" [(visible)]="displayDialog" [style]="{ width: '55rem' }">
-    <form [formGroup]="planForm" (ngSubmit)="save()">
-      <div class="flex flex-wrap gap-3 mb-3">
-        <label for="name" class="font-semibold w-1/6">Name</label>
-        <input pInputText id="name" class="flex-auto w-1/6" autocomplete="off" formControlName="name" />
+  <p-dialog header="{{ id == 0 ? 'Add Plan' : 'Edit Plan' }}" [(visible)]="displayDialog" [style]="{ width: '35rem' }">
+    <form [formGroup]="planForm" (ngSubmit)="save()" class="grid grid-cols-2 gap-4 p-4">
+      <div class="col-span-2 flex flex-wrap gap-3 mb-3">
+        <label for="name" class="font-semibold w-full">Name</label>
+        <input type="text"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="name" />
+      </div>
+      <div class="col-span-2 flex flex-wrap gap-3 mb-3">
+        <label for="description" class="font-semibold w-full">Description</label>
+        <input type="text"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="description" />
+      </div>
+      <div class="col-span-2 flex flex-wrap gap-3 mb-3">
+        <label for="features" class="font-semibold w-full">Features</label>
+        <input type="text"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="features" />
       </div>
       <div class="flex flex-wrap gap-3 mb-3">
-        <label for="description" class="font-semibold w-1/6">Description</label>
-        <input pInputText id="description" class="flex-auto w-1/6" autocomplete="off" formControlName="description" />
+        <label for="type" class="font-semibold w-full">Type</label>
+        <select id="newQuestion" formControlName="type"
+          class="flex-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="">Select Type</option>
+          @for (item of typeOptions; track item) {
+          <option [value]="item.value">{{item.label}}</option>
+          }
+        </select>
+      </div>
+      @if(planForm.controls['type'].value=='free'){
+        <div class="flex flex-wrap gap-3 mb-3">
+          <label for="defaultPlan" class="font-semibold w-full">Default Plan</label>
+          <select id="newQuestion" formControlName="default_plan"
+            class="flex-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option value="">Select Default Status</option>
+            <option value="0">True</option>
+            <option value="1">False</option>
+          </select>
+        </div>
+      }
+      <div class="flex flex-wrap gap-3 mb-3">
+        <label for="planDuration" class="font-semibold w-full">Plan Duration</label>
+        <select id="newQuestion" formControlName="plan_type"
+          class="flex-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="">Select Duration</option>
+          @for (item of planDurationOptions; track item) {
+          <option [value]="item.value">{{item.label}}</option>
+          }
+        </select>
+      </div>
+      @if(planForm.controls['type'].value!=='free'){
+      <div class="flex flex-wrap gap-3 mb-3">
+        <label for="price" class="font-semibold w-1/2">Price</label>
+        <input type="number"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="price" />
       </div>
       <div class="flex flex-wrap gap-3 mb-3">
-        <label for="features" class="font-semibold w-1/6">Features</label>
-        <input pInputText id="features" class="flex-auto w-1/6" autocomplete="off" formControlName="features" />
+        <label for="currency" class="font-semibold w-full">Currency</label>
+        <select id="newQuestion" formControlName="currency_name"
+          class="flex-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="">Select Currency</option>
+          @for (currency of currencies; track currency) {
+          <option [value]="currency.short_name">{{ currency.full_name }}({{ currency.symbol }})</option>
+          }
+        </select>
+      </div>
+    }
+      <div class="flex flex-wrap gap-3 mb-3">
+        <label for="wordLimit" class="font-semibold w-full">Word Limit</label>
+        <input type="number"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="word_limit" />
       </div>
       <div class="flex flex-wrap gap-3 mb-3">
-        <label for="type" class="font-semibold w-1/6">Type</label>
-        <p-dropdown id="type" [options]="typeOptions" formControlName="type" placeholder="Select Type"
-          class="w-6"></p-dropdown>
+        <label for="imageLimit" class="font-semibold w-full">Image Limit</label>
+        <input type="number"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="image_limit" />
       </div>
       <div class="flex flex-wrap gap-3 mb-3">
-        <label for="planDuration" class="font-semibold w-1/6">Plan Duration</label>
-        <p-dropdown id="planDuration" [options]="planDurationOptions" formControlName="plan_type"
-          placeholder="Select Duration" class="w-6"></p-dropdown>
+        <label for="seatLimit" class="font-semibold w-full">Seat Limit</label>
+        <input type="number"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="seats_limit" />
       </div>
       <div class="flex flex-wrap gap-3 mb-3">
-        <label for="price" class="font-semibold w-1/6">Price</label>
-        <input pInputText id="price" class="flex-auto w-1/6" autocomplete="off" formControlName="price" />
+        <label for="paymentWebhook" class="font-semibold w-full">Payment Webhook</label>
+        <input type="text"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="payment_api_webhook" />
       </div>
       <div class="flex flex-wrap gap-3 mb-3">
-        <label for="currency" class="font-semibold w-1/6">Currency</label>
-        <p-dropdown [options]="currencies" formControlName="currency_name" optionLabel="full_name"
-          optionValue="short_name" placeholder="Select a Currency">
-          <ng-template let-currency pTemplate="item">
-            <div class="p-clearfix">
-              <span style="float: left; margin: .5em 0 0 0">{{currency.symbol}} - {{currency.full_name}}</span>
-            </div>
-          </ng-template>
-        </p-dropdown>
+        <label for="paymentKey" class="font-semibold w-full">Payment Key</label>
+        <input type="text"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="payment_api_key" />
       </div>
       <div class="flex flex-wrap gap-3 mb-3">
-        <label for="wordLimit" class="font-semibold w-1/6">Word Limit</label>
-        <input pInputText id="wordLimit" class="flex-auto w-1/6" autocomplete="off" formControlName="word_limit" />
+        <label for="seatKey" class="font-semibold w-full">Secret Key</label>
+        <input type="text"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          autocomplete="off" formControlName="secret_key" />
       </div>
-      <div class="flex flex-wrap gap-3 mb-3">
-        <label for="imageLimit" class="font-semibold w-1/6">Image Limit</label>
-        <input pInputText id="imageLimit" class="flex-auto w-1/6" autocomplete="off" formControlName="image_limit" />
-      </div>
-      <div class="flex flex-wrap gap-3 mb-3">
-        <label for="seatLimit" class="font-semibold w-1/6">Seat Limit</label>
-        <input pInputText id="seatLimit" class="flex-auto w-1/6" autocomplete="off" formControlName="seats_limit" />
-      </div>
-      <div class="flex flex-wrap gap-3 mb-3">
-        <label for="paymentWebhook" class="font-semibold w-1/6">Payment Webhook</label>
-        <input pInputText id="paymentWebhook" class="flex-auto w-1/6" autocomplete="off"
-          formControlName="payment_api_webhook" />
-      </div>
-      <div class="flex flex-wrap gap-3 mb-3">
-        <label for="paymentKey" class="font-semibold w-1/6">Payment Key</label>
-        <input pInputText id="paymentKey" class="flex-auto w-1/6" autocomplete="off"
-          formControlName="payment_api_key" />
-      </div>
-      <div class="flex flex-wrap gap-3 mb-3">
-        <label for="seatKey" class="font-semibold w-1/6">Secret Key</label>
-        <input pInputText id="seatKey" class="flex-auto w-1/6" autocomplete="off" formControlName="secret_key" />
-      </div>
-      <div class="flex justify-content-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="displayDialog=false"></p-button>
-        <p-button label="Save" type="submit"></p-button>
+      <div class="col-span-2 flex justify-end gap-2">
+        <button type="button"
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors duration-300">Cancel</button>
+        <button type="button"
+          class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-300"
+          (click)="save()">Save</button>
       </div>
     </form>
   </p-dialog>
-
-
 </div>

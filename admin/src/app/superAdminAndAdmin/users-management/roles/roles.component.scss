@@ -12,3 +12,7 @@
         }
     }
 }
+::ng-deep  .p-element .p-tree-selectable{
+    height:320px !important;
+    overflow-y: scroll !important;
+}

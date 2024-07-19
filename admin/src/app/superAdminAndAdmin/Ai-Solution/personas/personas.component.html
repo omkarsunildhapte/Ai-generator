@@ -18,7 +18,7 @@
     <p-table [value]="data" [paginator]="true" [rows]="limit" [totalRecords]="totalRecords"
         [showCurrentPageReport]="true" styleClass="p-datatable-striped"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="onPageChange($event)"
-        [lazy]="true" [loading]="loading" [rowsPerPageOptions]="[5, 10, 25, 50, 100]" [sortMode]="'multiple'"
+        [lazy]="true" [loading]="loading" [rowsPerPageOptions]="[10, 25, 50, 100]" [sortMode]="'multiple'"
         (onSort)="onSort($event)">
         <ng-template pTemplate="header">
             <tr>
@@ -44,8 +44,8 @@
                     @for(file of rowData.files;track file){
                     <a (click)="getFile(file.base64, file.name)"
                         class="text-blue-500 hover:text-blue-700 font-medium hover:underline cursor-pointer">
-                       {{ file.name }}
-                     </a>
+                        {{ file.name }}
+                    </a>
                     }
                 </td>
                 <td class="px-4 py-2">
@@ -87,21 +87,32 @@
             <p-tabView>
                 <p-tabPanel header="Text">
                     <div class="flex align-items-center gap-3 mb-3 flex-col">
-                        <input type="text" class="border rounded px-3 py-2 w-full" formControlName="describe" />
+                        <textarea class="border rounded px-3 py-2 w-full" formControlName="describe"></textarea>
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Files">
-                    <div class="flex items-center gap-3 mb-3 flex-col">
-                        <input type="file" id="fileUpload" class="w-full" (change)="onFileSelected($event)"  accept=".pdf, .docx" />
-                        <small class="text-gray-600">Allowed file types: .pdf, .docx</small>
+                    <div class="flex flex-col items-center gap-3 mb-3">
+                        <label for="fileUpload" class="cursor-pointer">
+                            <span class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Choose File
+                            </span>
+                            <input type="file" id="fileUpload" class="hidden" (change)="onFileSelected($event)"
+                                accept=".pdf,.docx" />
+                        </label>
+                        <span class="text-gray-600">Allowed file types: .pdf, .docx</span>
+                        <span class="text-xs text-gray-500">Max file size: 10MB</span>
                     </div>
-                    @if(uploadedFiles.length > 0){
+                    @if(uploadedFiles && uploadedFiles.length > 0){
                     <h3>Previous Documents</h3>
                     <ul>
                         @for(file of uploadedFiles;track file;let i = $index){
-                        <li>
-                            {{file.name}}
-                            <button type="button" (click)="deleteFile(i)">Delete</button>
+                        <li class="flex items-center justify-between pt-2">
+                            <span>{{ uploadedFiles[i].name }}</span>
+                            <button type="button"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded flex items-center space-x-2"
+                                (click)="deleteFile(i)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </li>
                         }
                     </ul>
@@ -123,7 +134,7 @@
             </p-tabView>
             <div class="flex justify-content-end gap-2 mt-3">
                 <button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-                    (click)="displayDialog=false">
+                    (click)="close()">
                     Cancel
                 </button>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

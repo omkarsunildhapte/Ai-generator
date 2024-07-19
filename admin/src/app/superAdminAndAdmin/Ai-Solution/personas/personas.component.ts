@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
@@ -11,7 +10,6 @@ import { AISolutionService } from '../../../service/ai-solution.service';
   selector: 'app-personas',
   standalone: true,
   imports: [
-    CheckboxModule,
     FormsModule,
     TableModule,
     DialogModule,
@@ -27,7 +25,7 @@ export class PersonasComponent implements OnInit{
   searchText: string = '';
   displayDialog: boolean = false;
   data: any[] = [];
-  limit: number = 5;
+  limit: number = 10;
   totalRecords: number = 0;
   loading: boolean = false;
   page: number = 1;
@@ -47,7 +45,7 @@ export class PersonasComponent implements OnInit{
 
   editData(rowData: any) {
     this.displayDialog = true;
-    this.uploadedFiles = rowData.files;
+    this.uploadedFiles = rowData.files ? rowData.file : [];
     this.personaForm.patchValue({
       name : rowData.name,
       describe:rowData.description,
@@ -76,14 +74,17 @@ export class PersonasComponent implements OnInit{
       };
       this.categorieService.addAndUpdatePersona(body).subscribe((res: any) => {
         if (res.status == 201) {
-          this.displayDialog = false;
           this.getPersona();
-          this.personaForm.reset();
-          this.id = 0;
-          this.uploadedFiles= [];
+         this.close();
         }
       });
     }
+  }
+  close(){
+    this.displayDialog = false;
+    this.personaForm.reset();
+    this.id = 0;
+    this.uploadedFiles= [];
   }
 
   getPersona() {

@@ -9,8 +9,8 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { RolesService } from '../../../../service/roles.service';
 import { forkJoin } from 'rxjs';
+import { AdminServies } from '../../../../service/admin.service';
 import { UserService } from '../../../../service/user.service';
 
 @Component({
@@ -49,13 +49,13 @@ export class NewUsersComponent implements OnInit {
   states: any[] = [];
   cities: any[] = [];
   rolesList: any[] = [];
-  rolesService = inject(RolesService);
+  rolesService = inject(AdminServies);
   userService = inject(UserService);
   @Output() notify: EventEmitter<string> = new EventEmitter<string>();
   ngOnInit(): void {
     forkJoin({
       countries: this.userService.getCountries(),
-      roles: this.rolesService.findAllByUserId(),
+      roles: this.rolesService.findAllByUserIdRoles(),
     }).subscribe((response: any) => {
       this.countries = response.countries.countries;
       if (response.roles.status === 200) {

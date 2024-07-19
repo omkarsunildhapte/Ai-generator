@@ -26,15 +26,33 @@ const Plan = {
   },
 
   create: async (planData, user_id) => {
-    const { name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key } = planData;
-    await db.query('INSERT INTO plans (user_id, name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [user_id, name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key]);
-  },
+    const { name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan } = planData;
+    
+    if (default_plan) {
+      await Plan.removeDefault_plan(user_id);
+    }
 
+    await db.query('INSERT INTO plans (user_id, name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [user_id, name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan]);
+  },
+  
   update: async (id, planData, user_id) => {
-    const { name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key } = planData;
-    await db.query('UPDATE plans SET name = ?, description = ?, features = ?, plan_type = ?, price = ?, currency_name = ?, type = ?, word_limit = ?, image_limit = ?, seats_limit = ?, payment_api_key = ?, payment_api_webhook = ?, secret_key = ? WHERE id = ? AND user_id = ?', [name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, id, user_id]);
+    const { name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan } = planData;
+
+    if (default_plan) {
+      await Plan.removeDefault_plan(user_id);
+    }
+
+    await db.query('UPDATE plans SET name = ?, description = ?, features = ?, plan_type = ?, price = ?, currency_name = ?, type = ?, word_limit = ?, image_limit = ?, seats_limit = ?, payment_api_key = ?, payment_api_webhook = ?, secret_key = ?, default_plan = ? WHERE id = ? AND user_id = ?', [name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan, id, user_id]);
   },
 
+  removeDefault_plan: async (user_id) => {
+    await db.query('UPDATE plans SET default_plan = 0 WHERE user_id = ? AND default_plan = 1', [user_id]);
+  },
+
+  checkDefault_plan: async (user_id) => {
+    const [result] = await db.query('SELECT COUNT(*) AS count FROM plans WHERE user_id = ? AND default_plan = 1', [user_id]);
+    return result[0].count;
+  },
 
   delete: async (id, user_id) => {
     await db.query('DELETE FROM plans WHERE id = ? AND user_id = ?', [id, user_id]);

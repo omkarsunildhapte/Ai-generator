@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from '../../../service/user.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AISolutionService } from '../../../service/ai-solution.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +12,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class SettingsComponent implements OnInit {
   userServies = inject(UserService);
+  aISolutionService = inject(AISolutionService);
+  persona:any[]=[]
   openAIForm = new FormGroup({
     defaultEngineKey: new FormControl('', Validators.required),
     defaultEngine: new FormControl('', Validators.required),
@@ -27,7 +30,12 @@ export class SettingsComponent implements OnInit {
     chatModelPersona: new FormControl('')
   })
   ngOnInit(): void {
-    this.getSettings()
+    this.getSettings();
+    this.aISolutionService.getAllPersonas().subscribe((res:any)=>{
+      if(res.status==200){
+        this.persona = res.res;
+      }
+    })
   }
   getSettings(){
     this.userServies.getSetting().subscribe((res:any)=>{

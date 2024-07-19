@@ -8,23 +8,25 @@ const planController = {
       const plans = await Plan.get({ user_id, page, limit, sort, search });
       res.status(200).json({ status: 200, res: plans, error: null });
     } catch (error) {
-      res.status(500).json({ error: error.message, status: 500, res: null });
+      res.status(500).json({ status: 500, res: null, error: error.message });
     }
   },
 
   createOrUpdatePlan: async (req, res) => {
     const user_id = parseInt(req.query.userId);
-    const { name, description, plan_type,features, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, id } = req.body;
+    const { name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, id, default_plan } = req.body;
+    const adjustedPrice = type === 'free' ? 0 : price;
+    const adjustedCurrencyName = type === 'free' ? '' : currency_name;
     try {
       if (id) {
-        await Plan.update(id, { name, features,description, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key }, user_id);
+        await Plan.update(id, { name, description, features, plan_type, price: adjustedPrice, currency_name: adjustedCurrencyName, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan }, user_id);
         res.status(201).json({ status: 201, res: null, error: null });
       } else {
-        await Plan.create({ name, features,description, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key },user_id);
+        await Plan.create({ name, description, features, plan_type, price: adjustedPrice, currency_name: adjustedCurrencyName, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan }, user_id);
         res.status(201).json({ status: 201, res: null, error: null });
       }
     } catch (error) {
-      res.status(500).json({ error: error.message, status: 500, res: null });
+      res.status(500).json({ status: 500, res: null, error: error.message });
     }
   },
 
@@ -33,9 +35,9 @@ const planController = {
     const { id } = req.params;
     try {
       await Plan.delete(id, user_id);
-      res.status(200).json({ res: null, status: 200, error: null });
+      res.status(200).json({ status: 200, res: null, error: null });
     } catch (error) {
-      res.status(500).json({ error: error.message, res: null, status: 500 });
+      res.status(500).json({ status: 500, res: null, error: error.message });
     }
   }
 };

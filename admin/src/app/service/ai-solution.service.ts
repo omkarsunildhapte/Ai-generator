@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class AISolutionService {
   http = inject(HttpClient);
 
-  getCategorie(page: number, limit: number, sort: string, search: string, status: number|null): Observable<any> {
+  getCategories(page: number, limit: number, sort: string, search: string, status: number|null): Observable<any> {
     const body = { page, limit, sort, search, status };
     return this.http.post<any>(`${environment.apiUrl}/categories/`, body);
   }
@@ -24,6 +24,23 @@ export class AISolutionService {
 
   deleteCategory(id: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/categories/delete/${id}`, null);
+  }
+  
+  getBotCategories(page: number, limit: number, sort: string, search: string, status: number|null): Observable<any> {
+    const body = { page, limit, sort, search, status };
+    return this.http.post<any>(`${environment.apiUrl}/botCategories/`, body);
+  }
+
+  getBotAllCategories(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/botCategories/getAllCategories`, null);
+  }
+
+  addAndUpdateBotCategory(body: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/botCategories/create`, body);
+  }
+
+  deleteBotCategory(id: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/botCategories/delete/${id}`, null);
   }
 
   getQuestion(page: number, limit: number, sort: string, search: string, required: string |null, type: string |null): Observable<any> {
