@@ -12,7 +12,7 @@ import { NewUsersComponent } from './new-users/new-users.component';
 import { UpdateEmailComponent } from './update-email/update-email.component';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
 import { AdminServies } from '../../../service/admin.service';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -27,7 +27,8 @@ import { AdminServies } from '../../../service/admin.service';
     DropdownModule,
     NewUsersComponent,
     UpdateEmailComponent,
-    UpdatePasswordComponent
+    UpdatePasswordComponent,
+    DatePipe
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
@@ -54,14 +55,10 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     forkJoin({
       res: this.userService.getUsers(1, 5, 'name',''),
-      res1: this.rolesService.findAllByUserIdRoles(),
     }).subscribe((response: any) => {
       if(response.res.status ==200){
         this.data = response.res.res.users;
         this.totalRecords = response.res.res.total;
-      }
-      if (response.res1.status === 200) {
-        this.rolesList = response.roles.res;
       }
     });
   }
@@ -132,5 +129,14 @@ export class UserComponent implements OnInit {
       })
     }
   }
+  
+  getRoles(roles:any){
+   return roles.map((e:any)=>e.role_name); 
+  }
 
+  getStatusClass(status: number): string {
+    return status === 1
+      ? 'bg-green-100 text-green-800'
+      : 'bg-red-100 text-red-800';
+  }
 }

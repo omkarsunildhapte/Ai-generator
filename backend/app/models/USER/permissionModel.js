@@ -42,9 +42,13 @@ const Permission = {
   delete: async (id) => {
     await db.query('DELETE FROM permissions WHERE id = ?', [id]);
   },
+  getAllPermissions: async () => {
+    const [rows] = await db.query('SELECT id FROM permissions');
+    return rows;
+  },
   findAllByUserId: async (userId) => {
-      const [permissions] = await db.query('SELECT * FROM permissions WHERE user_id = ?', [userId]);
-      return permissions;
+    const [permissions] = await db.query('SELECT * FROM permissions WHERE user_id = ?', [userId]);
+    return permissions;
   },
 };
 

@@ -11,27 +11,13 @@ const roleController = {
         const { updated_by } = roles.roles[i];
         if (updated_by) {
           const updateName = await User.findOut(updated_by, tenantId);
-          roles.roles[i].updateName = `${updateName[0].name} ${updateName[0].surname}`;
+          roles.roles[i].updateName = `${updateName.name} ${updateName.surname}`;
         } else {
           roles.roles[i].updatedName = null;
           roles.roles[i].updated_at = null;
         }
       }
       res.status(200).json({ status: 200, res: roles, error: null });
-    } catch (error) {
-      res.status(500).json({ status: 500, error: error.message, data: null });
-    }
-  },
-  findAllByUserId: async (req, res) => {
-    const userId = req.query.userId;
-    try {
-      const roles = await Role.findAllByUserId(userId);
-      const modifiedRoles = roles.map((role) => ({
-        name: role.name,
-        isDefault: role.isDefault,
-        id: role.id,
-      }));
-      res.status(200).json({ status: 200, res: modifiedRoles, error: null });
     } catch (error) {
       res.status(500).json({ status: 500, error: error.message, data: null });
     }

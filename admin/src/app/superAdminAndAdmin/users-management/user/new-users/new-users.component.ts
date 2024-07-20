@@ -55,12 +55,8 @@ export class NewUsersComponent implements OnInit {
   ngOnInit(): void {
     forkJoin({
       countries: this.userService.getCountries(),
-      roles: this.rolesService.findAllByUserIdRoles(),
     }).subscribe((response: any) => {
       this.countries = response.countries.countries;
-      if (response.roles.status === 200) {
-        this.rolesList = response.roles.res;
-      }
     });
   }
 

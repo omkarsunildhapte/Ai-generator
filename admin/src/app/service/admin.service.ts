@@ -18,12 +18,12 @@ export class AdminServies {
     return this.http.post<any>(`${environment.apiUrl}/permission/get`, body);
   }
 
-  findAllByUserIdPermission(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/permission/findAllByUserId`);
-  }
-
   deletePermissions(id: any): Observable<any> {
     return this.http.delete<any>(`${environment.apiUrl}/permission/${id}`);
+  }
+
+  findAllByUserIdPermission(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/permission/findAllByUserId`);
   }
 
   addAndUpdateRoles(body: any): Observable<any> {
@@ -37,10 +37,6 @@ export class AdminServies {
 
   deleteRoles(id:any):Observable<any>{
     return this.http.delete<any>(`${environment.apiUrl}/roles/  ${id}`);
-  }
-
-  findAllByUserIdRoles(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/roles/findAllByUserId`);
   }
   
   getPlan(page: number, limit: number, sort: string, search: string): Observable<any> {
