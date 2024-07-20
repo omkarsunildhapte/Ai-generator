@@ -42,15 +42,9 @@ const Role = {
     delete: async (id) => {
         await db.query('DELETE FROM roles WHERE id = ?', [id]);
     },
-
-    findAllByUserId: async (userId) => {
-        const [roles] = await db.query('SELECT * FROM roles WHERE user_id = ?', [userId]);
-        return roles;
-    },
-    
-    getPermissionsByRoleId: async (roleId) => {
-        const [roles] = await db.query('SELECT * FROM roles WHERE id = ?', [roleId]);
-        return roles.map(permission => permission.permissions);
+    getRoleId:async (id) => {
+        const [rows] = await db.query('SELECT * FROM roles WHERE id = ?', [id]);
+        return rows[0] || null;
     }
 };
 

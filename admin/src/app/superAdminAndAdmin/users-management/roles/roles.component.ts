@@ -9,6 +9,7 @@ import { TableModule } from 'primeng/table';
 import { TreeModule } from 'primeng/tree';
 import { forkJoin } from 'rxjs';
 import { AdminServies } from '../../../service/admin.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-roles',
@@ -20,7 +21,8 @@ import { AdminServies } from '../../../service/admin.service';
     ButtonModule,
     InputTextModule,
     ConfirmDialogModule,
-    TreeModule
+    TreeModule,
+    DatePipe
   ],
   templateUrl: './roles.component.html',
   styleUrl: './roles.component.scss',
