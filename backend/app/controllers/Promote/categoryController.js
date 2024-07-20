@@ -50,7 +50,7 @@ const categoryController = {
     try {
       const resMessage = {
         message: 'Category is successfully deleted'
-    };
+      };
       await Category.delete(categoryId, userId);
       res.status(200).json({ status: 200, res: resMessage, error: null });
     } catch (error) {

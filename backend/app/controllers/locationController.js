@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const locations = JSON.parse(fs.readFileSync(path.join(__dirname, '../../locations.json'), 'utf8'));
 const currencies = JSON.parse(fs.readFileSync(path.join(__dirname, '../../currencies.json'), 'utf8'));
-const languages =JSON.parse(fs.readFileSync(path.join(__dirname, '../../languages.json'), 'utf8'));
+const languages = JSON.parse(fs.readFileSync(path.join(__dirname, '../../languages.json'), 'utf8'));
 
 module.exports = {
   getCountries: (req, res) => {
@@ -13,7 +13,7 @@ module.exports = {
       res.status(500).json({ status: 500, error: error.message, res: null });
     }
   },
-  
+
   getStates: (req, res) => {
     try {
       const countryCode = req.params.countryCode;
@@ -27,7 +27,7 @@ module.exports = {
       res.status(500).json({ status: 500, error: error.message, res: null });
     }
   },
-  
+
   getCities: (req, res) => {
     try {
       const { countryCode, stateCode } = req.params;
@@ -48,13 +48,13 @@ module.exports = {
     try {
       const sortedCurrencies = currencies.sort((a, b) => {
         if (a.full_name < b.full_name) {
-            return -1;
+          return -1;
         }
         if (a.full_name > b.full_name) {
-            return 1;
+          return 1;
         }
         return 0;
-    });
+      });
       res.status(200).json({ status: 200, res: sortedCurrencies, error: null });
     } catch (error) {
       res.status(500).json({ status: 500, error: error.message, res: null });
@@ -64,13 +64,13 @@ module.exports = {
     try {
       const sortedLanguages = languages.sort((a, b) => {
         if (a.name < b.name) {
-            return -1;
+          return -1;
         }
         if (a.name > b.name) {
-            return 1;
+          return 1;
         }
         return 0;
-    });
+      });
       res.status(200).json({ status: 200, res: sortedLanguages, error: null });
     } catch (error) {
       res.status(500).json({ status: 500, error: error.message, res: null });

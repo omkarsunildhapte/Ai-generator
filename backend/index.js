@@ -7,10 +7,10 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 const router = require('./app/routes/router');
-app.use(express.json({ limit: '10mb' })); 
+app.use(express.json({ limit: '10mb' }));
 
 const corsOptions = {
-  origin: 'http://localhost:4200', 
+  origin: 'http://localhost:4200',
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));

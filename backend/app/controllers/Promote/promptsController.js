@@ -8,8 +8,8 @@ const promptsController = {
     const userId = parseInt(req.query.userId);
     const { page, limit, sort, search, status, type, category } = req.body;
     try {
-      const promptData = { page, limit, sort, search, status, type, category};
-      const resData = await Prompt.getAll(promptData,userId);
+      const promptData = { page, limit, sort, search, status, type, category };
+      const resData = await Prompt.getAll(promptData, userId);
       res.status(200).json({ status: 200, res: resData, error: null });
     } catch (error) {
       res.status(500).json({ status: 500, error: error.message, res: null });
@@ -42,7 +42,7 @@ const promptsController = {
     }
   },
 
-  getAllPersonasCategoriesQuestions :async (req, res) => {
+  getAllPersonasCategoriesQuestions: async (req, res) => {
     const userId = parseInt(req.query.userId);
     try {
       const categories = await Category.getAll(userId);
@@ -53,7 +53,7 @@ const promptsController = {
         personas: personas,
         questions: questions
       };
-  
+
       res.status(200).json({ status: 200, res: response, error: null });
     } catch (error) {
       res.status(500).json({ status: 500, res: null, error: error.message });

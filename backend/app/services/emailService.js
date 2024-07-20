@@ -41,7 +41,7 @@ const emailService = {
     }
   },
 
-  sendOtp : async (user, otp, branding) => {
+  sendOtp: async (user, otp, branding) => {
     const subject = "Login OTP Code";
     const content = `
         <div class="email-wrapper">

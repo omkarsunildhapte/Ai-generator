@@ -25,7 +25,7 @@ const permissionController = {
       } else {
         await Permission.create({ name, is_default }, userId);
         let permission = await Permission.getAllPermissions();
-        permission = permission.map(e=>e.id);
+        permission = permission.map(e => e.id);
         const role = await Role.getRoleId(1);
         await Role.update({ id: role.id, name: role.name, permission, user_id: role.user_id }, 1);
         res.status(201).json({ status: 201, error: null });

@@ -11,7 +11,7 @@ const personaController = {
       res.status(500).json({ status: 500, error: error.message, res: null });
     }
   },
-  
+
   getAllPersonas: async (req, res) => {
     const userId = parseInt(req.query.userId);
     try {
@@ -19,7 +19,7 @@ const personaController = {
       res.status(200).json({ status: 200, res: personas, error: null });
     }
     catch (error) {
-      res.status(500).json({ status: 500, error: error.message,res:null });
+      res.status(500).json({ status: 500, error: error.message, res: null });
     }
   },
 

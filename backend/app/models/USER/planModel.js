@@ -37,11 +37,9 @@ const Plan = {
   
   update: async (id, planData, user_id) => {
     const { name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan } = planData;
-
     if (default_plan) {
       await Plan.removeDefault_plan(user_id);
     }
-
     await db.query('UPDATE plans SET name = ?, description = ?, features = ?, plan_type = ?, price = ?, currency_name = ?, type = ?, word_limit = ?, image_limit = ?, seats_limit = ?, payment_api_key = ?, payment_api_webhook = ?, secret_key = ?, default_plan = ? WHERE id = ? AND user_id = ?', [name, description, features, plan_type, price, currency_name, type, word_limit, image_limit, seats_limit, payment_api_key, payment_api_webhook, secret_key, default_plan, id, user_id]);
   },
 

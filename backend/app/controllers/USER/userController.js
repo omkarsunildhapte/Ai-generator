@@ -1,7 +1,7 @@
 const User = require('../../models/USER/userModel');
 const Brand = require('../../models/USER/brandingModel');
 const bcrypt = require('bcrypt');
-const {sendOtp } = require('../../services/emailService');
+const { sendOtp } = require('../../services/emailService');
 const { generateOtp, generateRandomPassword, generateToken } = require('../../services/otpService');
 
 const userController = {
@@ -163,14 +163,14 @@ const userController = {
 
   getAllUsers: async (req, res) => {
     const userId = req.query.userId;
-  const { page, limit, sort, search } = req.query;
-  try {
-    const result = await User.get({ userId, page, limit, sort, search });
-    res.status(200).json({ status: 200,  res: result,error: null });
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ status: 500, error: error.message, res: null });
-  }
+    const { page, limit, sort, search } = req.query;
+    try {
+      const result = await User.get({ userId, page, limit, sort, search });
+      res.status(200).json({ status: 200, res: result, error: null });
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ status: 500, error: error.message, res: null });
+    }
   }
 };
 
