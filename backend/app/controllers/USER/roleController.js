@@ -1,5 +1,6 @@
 const Role = require("../../models/USER/rolesModel");
 const User = require("../../models/USER/userModel");
+const UserRolesPermission = require("../../models/USER/user_roles_permissionModel");
 const roleController = {
   getAllRoles: async (req, res) => {
     try {
@@ -29,9 +30,28 @@ const roleController = {
       if (name && permission.length) {
         if (id) {
           await Role.update({ id, name, permission, status }, userId);
-          res.status(201).json({ status: 201, error: null, data: null });
+          res.status(201).json({ status: 201, error: null, data:null });
         } else {
           await Role.create({ name, permission, status }, userId);
+          const SuperAdmin = await UserRolesPermission.find(1);
+          const SuperAdminRoles = SuperAdmin.roles.map(e=>e.role_id);
+          const allRoleIds = await Role.getRolesAllId();
+          const missingRoleIds = allRoleIds.map(e => e.id).filter(id => !SuperAdminRoles.some(role => role === id));
+          const missingRolesData = [];
+          for (const id of missingRoleIds) {
+            const data = await Role.getRoleId(id);
+            missingRolesData.push(data);
+          }
+          missingRolesData.forEach(missingRole => {
+                if (!SuperAdminRoles.some(role => role.role_id === missingRole.id)) {
+                  SuperAdmin.roles.push({
+                        role_id: missingRole.id,
+                        role_name: missingRole.name,
+                        permissions: JSON.stringify(missingRole.permissions)
+                    });
+                }
+            });
+          await UserRolesPermission.update(1, { roles: SuperAdmin.roles });
           res.status(201).json({ status: 201, data: null, error: null });
         }
       }

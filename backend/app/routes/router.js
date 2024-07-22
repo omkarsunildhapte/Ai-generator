@@ -66,7 +66,8 @@ router.delete('/roles/:id', checkAuth, roleController.deleteRole);
 // User Routes
 router.get('/user/updateAffiliate/:id', checkAuth, userController.updateAffiliate);
 router.post('/user/getAffiliate', checkAuth, userController.getAffiliate);
-router.post('/user/register', userController.register); 
+router.post('/user/registerAdmin', userController.registerAdmin); 
+router.post('/user/registerUser', userController.registerUser); 
 router.post('/user/login', userController.login); 
 router.post('/user/verifyOtp', userController.verifyOtp); 
 router.get('/user/regenerateOtp/:email', userController.regenerateOtp);

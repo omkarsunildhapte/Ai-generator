@@ -11,8 +11,12 @@ export class UserService {
   http = inject(HttpClient);
   router= inject (Router);
   
+  registerAdmin(body: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/user/registerAdmin`, body);
+  }
+  
   register(body: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/register`, body);
+    return this.http.post<any>(`${environment.apiUrl}/user/registerUser`, body);
   }
 
   login(body: any): Observable<any> {

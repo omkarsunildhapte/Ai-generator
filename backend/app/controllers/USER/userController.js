@@ -1,12 +1,14 @@
 const User = require('../../models/USER/userModel');
 const Brand = require('../../models/USER/brandingModel');
+const Roles = require('../../models/USER/rolesModel');
+const UserRolesPermission = require('../../models/USER/user_roles_permissionModel');
 const bcrypt = require('bcrypt');
 const { sendOtp } = require('../../services/emailService');
 const { generateOtp, generateRandomPassword, generateToken } = require('../../services/otpService');
 
 const userController = {
   // Register a new user
-  register: async (req, res) => {
+  registerUser: async (req, res) => {
     const { name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode } = req.body;
     const tenant_id = 1;
     const affiliate = generateRandomPassword();
@@ -16,12 +18,51 @@ const userController = {
         return res.status(400).json({ error: 'User already exists', status: 400, res: null });
       }
       await User.register({ name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode, tenant_id, affiliate });
+      const user = await User.findByEmail(email);
+      const data = await Roles.getRoleId(3);
+      const payload = {
+        id: user.id,
+        roles: [{
+          role_id: data.id,
+          role_name: data.name,
+          permissions: JSON.stringify(data.permissions)
+        }]
+      }
+      console.log(payload)
+      await UserRolesPermission.add(payload);
       res.status(201).json({ error: null, res: { message: 'Registration successful' }, status: 201 });
     } catch (err) {
       res.status(500).json({ error: err.message, status: 500, res: null });
     }
   },
-
+  registerAdmin: async (req, res) => {
+    const { name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode } = req.body;
+    const tenant_id = 1;
+    const affiliate = generateRandomPassword();
+    try {
+      const existingUser = await User.findByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ error: 'User already exists', status: 400, res: null });
+      }
+      await User.register({ name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode, tenant_id, affiliate });
+      const user = await User.findByEmail(email);
+      const roleIds = [2, 3];
+      let missingRolesData=[];
+      for (const id of roleIds) {
+        const data = await Roles.getRoleId(id);
+        missingRolesData.push({
+          role_id: data.id,
+          role_name: data.name,
+          permissions:JSON.stringify(data.permissions)
+        });
+      }
+      const roles = missingRolesData;
+      await UserRolesPermission.add({id:user.id,roles})
+      res.status(201).json({ error: null, res: { message: 'Registration successful' }, status: 201 });
+    } catch (err) {
+      res.status(500).json({ error: err.message, status: 500, res: null });
+    }
+  },
   // Login user and send OTP
   login: async (req, res) => {
     const { email, password } = req.body;
@@ -61,6 +102,7 @@ const userController = {
         await Brand.createBranding(user.id);
       }
       const updatedUser = await User.findByEmail(email);
+      const data = await UserRolesPermission.find(updatedUser.id);
       res.status(200).json({
         res: {
           message: 'OTP verified successfully',
@@ -75,7 +117,8 @@ const userController = {
             zipcode: updatedUser.zipcode,
             county: updatedUser.county,
             id: updatedUser.id,
-            tenantId: updatedUser.tenant_id
+            tenantId: updatedUser.tenant_id,
+            role:data.roles.map(e=>e.role_name)
           },
           token: updatedUser.token
         },

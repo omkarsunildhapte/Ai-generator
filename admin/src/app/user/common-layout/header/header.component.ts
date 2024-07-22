@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -10,11 +10,12 @@ import { InputIconModule } from 'primeng/inputicon';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   headerName: string = "";
   currentRoutePath: string = "";
-
-  constructor(private router: Router) {
+  router=inject(Router);
+  user:any;
+  ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoutePath = event.urlAfterRedirects;
@@ -27,5 +28,15 @@ export class HeaderComponent {
         }
       }
     });
+    const user = localStorage.getItem('user');
+    this.user = JSON.parse(user ?user :'');
   }
+ 
+  getUser(): boolean {
+    if (this.user) {
+      return this.user.role.some((e:any)=>e.includes('Admin'));
+    }
+    return false;
+  }
+  
 }

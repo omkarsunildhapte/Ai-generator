@@ -1,0 +1,218 @@
+<div class="flex gap-4">
+    <div class="flex items-center justify-center h-screen w-6/12">
+      <div class="flex flex-col items-center mx-16 justify-center w-full">
+        <div class="mb-2">
+          <img src="../../../assets/images/logo.svg" alt="logo" />
+        </div>
+        <form class="form w-full" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+          <div class="flex">
+            <div class="form-content pb-4 flex-1 mr-4">
+              <label class="text-sm text-gray-500">Full Name</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-user absolute left-2.5 text-gray-400"></i>
+                <input type="text" pInputText placeholder="Full Name" formControlName="name"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.name.invalid && f.name.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Full Name is required
+              </span>
+              }
+            </div>
+            <div class="form-content pb-4 flex-1">
+              <label class="text-sm text-gray-500">Surname</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-user-plus absolute left-2.5 text-gray-400"></i>
+                <input type="text" pInputText placeholder="Surname" formControlName="surname"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.surname.invalid && f.surname.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Surname is required
+              </span>
+              }
+            </div>
+          </div>
+          <div class="flex">
+            <div class="form-content pb-4 flex-1 mr-4">
+              <label class="text-sm text-gray-500">Email address</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-envelope absolute left-2.5 text-gray-400"></i>
+                <input type="text" pInputText placeholder="Email address" formControlName="email"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.email.invalid && f.email.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Email address is required and must be valid
+              </span>
+              }
+  
+            </div>
+            <div class="form-content pb-4 flex-1">
+              <label class="text-sm text-gray-500">Phone Number</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-mobile absolute left-2.5 text-gray-400"></i>
+                <input type="text" pInputText placeholder="Phone Number" formControlName="phone_number"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if(isSubmit && f.phone_number.invalid && f.phone_number.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Phone Number is required and must be between 10 to 15 digits
+              </span>
+              }
+            </div>
+          </div>
+          <div class="flex">
+            <div class="form-content pb-4 flex-1 mr-4">
+              <label class="text-sm text-gray-500">Password</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-lock absolute left-2.5 text-gray-400"></i>
+                <input type="password" pInputText placeholder="Password" formControlName="password"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.password.invalid && f.password.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Password is required and must be at least 6 characters
+              </span>
+              }
+            </div>
+            <div class="form-content pb-4 flex-1">
+              <label class="text-sm text-gray-500">Confirm Password</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-lock absolute left-2.5 text-gray-400"></i>
+                <input type="password" pInputText placeholder="Confirm Password" formControlName="confirmPassword"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.confirmPassword.invalid && f.confirmPassword.touched && !f.confirmPassword.value){
+              <span class="text-red-500 text-xs mt-1">
+                Password confirmation is required
+              </span>
+              }
+              @if( isSubmit && f.confirmPassword.errors?.['mustMatch'] && f.confirmPassword.touched){
+                <div class="text-red-500 text-xs mt-1">
+                  Passwords do not match
+                </div>
+              }
+            </div>
+          </div>
+          <div class="flex">
+            <div class="form-content pb-4 flex-1 mr-4">
+              <label class="text-sm text-gray-500">Location Name</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-map-marker absolute left-2.5 text-gray-400"></i>
+                <input type="text" pInputText placeholder="Location Name" formControlName="locationName"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.locationName.invalid && f.locationName.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Location Name is required
+              </span>
+              }
+            </div>
+            <div class="form-content pb-4 flex-1">
+              <label class="text-sm text-gray-500">Address</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-home absolute left-2.5 text-gray-400"></i>
+                <input type="text" pInputText placeholder="Address" formControlName="address"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.address.invalid && f.address.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Address is required
+              </span>
+              }
+            </div>
+          </div>
+          <div class="flex">
+            <div class="form-content pb-4 flex-1 mr-4">
+              <label class="text-sm text-gray-500">County</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-globe absolute left-2.5 text-gray-400"></i>
+                <select name="county" formControlName="county" (change)="onCountryChange()"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg">
+                  <option value="">Select Country</option>
+                  @for(country of countries;track country){
+                    <option [value]="country.code">{{country.name}}</option>
+                  }
+                </select>
+              </div>
+              @if( isSubmit && f.county.invalid && f.county.touched){
+              <span class="text-red-500 text-xs mt-1">
+                County is required
+              </span>
+              }
+            </div>
+  
+            <div class="form-content pb-4 flex-1">
+              <label class="text-sm text-gray-500">State</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-map absolute left-2.5 text-gray-400"></i>
+                <select name="state" formControlName="state" (change)="onStateChange()"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg">
+                  <option value="">Select State</option>
+                  @for (state of states; track state) {
+                    <option [value]="state.code">{{state.name}}</option>
+                  }
+                </select>
+              </div>
+              @if( isSubmit && f.state.invalid && f.state.touched){
+              <span class="text-red-500 text-xs mt-1">
+                State is required
+              </span>
+              }
+            </div>
+  
+          </div>
+          <div class="flex">
+            <div class="form-content pb-4 flex-1 mr-4">
+              <label class="text-sm text-gray-500">City</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-home absolute left-2.5 text-gray-400"></i>
+                <select name="city" formControlName="city"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg">
+                  <option value="">Select City</option>
+                  @for(city of cities;track city){
+                    <option [value]="city">{{city}}</option>
+                  }
+                </select>
+              </div>
+              @if( isSubmit && f.city.invalid && f.city.touched){
+              <span class="text-red-500 text-xs mt-1">
+                City is required
+              </span>
+              }
+            </div>
+            <div class="form-content pb-4 flex-1">
+              <label class="text-sm text-gray-500">Zipcode</label><br />
+              <div class="flex items-center relative">
+                <i class="pi pi-home absolute left-2.5 text-gray-400"></i>
+                <input type="text" pInputText placeholder="Zipcode" formControlName="zipcode"
+                  class="w-full py-2 px-4 pl-10 border border-gray-300 rounded-lg" />
+              </div>
+              @if( isSubmit && f.zipcode.invalid && f.zipcode.touched){
+              <span class="text-red-500 text-xs mt-1">
+                Zipcode is required and must be between 5 to 10 digits
+              </span>
+              }
+            </div>
+          </div>
+          <div class="btn-section flex flex-col items-center">
+            <button type="submit" class="buttoncolor text-white text-sm py-3 px-8 rounded-lg">
+              Sign up
+            </button>
+            <div class="text-blue-500 text-sm py-2">Have an account?
+              <a routerLink="/login" class="cursor-pointer">
+                Sign in
+              </a>
+            </div>
+          </div>
+          <div class="text-xs text-gray-600 pt-4">
+            By proceeding, you are agreeing to Ultimate AI Generator’s Terms of Service and Privacy Policy
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="h-full w-6/12">
+      <app-comment-log></app-comment-log>
+    </div>
+  </div>

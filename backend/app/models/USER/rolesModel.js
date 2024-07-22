@@ -45,6 +45,10 @@ const Role = {
     getRoleId:async (id) => {
         const [rows] = await db.query('SELECT * FROM roles WHERE id = ?', [id]);
         return rows[0] || null;
+    },
+    getRolesAllId:async()=>{
+        const [rows] = await db.query('SELECT id FROM roles');
+        return rows;
     }
 };
 

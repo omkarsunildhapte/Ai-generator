@@ -9,6 +9,9 @@
         </div>
     </div>
     <div class="flex items-center justify-end gap-8">
+        @if(getUser()){
+            <button class="buttoncolor text-white py-4 px-6 rounded-lg text-sm" >Back To Admin</button>
+        }
         <button class="buttoncolor text-white py-4 px-6 rounded-lg text-sm">UPGRADE</button>
         <img src="../../../assets/images/profile_1.svg" alt="profile" />
     </div>

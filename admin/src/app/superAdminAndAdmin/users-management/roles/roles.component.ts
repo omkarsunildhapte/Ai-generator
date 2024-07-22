@@ -166,6 +166,7 @@ export class RolesComponent implements OnInit {
   editData(rowData: any) {
     this.displayDialog = true;
     this.id = rowData.id;
+    this.isDefault = rowData.isDefault ==1 ? true:false;
     this.roleName = rowData.name;
   }
 

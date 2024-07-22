@@ -93,7 +93,6 @@ const User = {
     const { userId, newEmail, token, tenantId } = data;
     await db.query("UPDATE users SET new_email = ?, email_verification_token = ?, email_token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE id = ? AND tenant_id = ?", [newEmail, token, userId, tenantId]);
   },
-
   verifyEmailToken: async (token) => {
     const [rows] = await db.query("SELECT * FROM users WHERE email_verification_token = ? AND email_token_expiry > NOW()", [token]);
     if (rows.length > 0) {
@@ -104,19 +103,15 @@ const User = {
       return null;
     }
   },
-
   updateEmail: async (userId, newEmail, tenantId) => {
     await db.query("UPDATE users SET email = ? WHERE id = ? AND tenant_id = ?", [newEmail, userId, tenantId]);
   },
-
   updateStatus: async (id, tenantId, activeStatus) => {
     await db.query("UPDATE users SET account_status = ? WHERE id = ? AND tenant_id = ?", [activeStatus, id, tenantId]);
   },
-
   delete: async (id, tenantId) => {
     await db.query("UPDATE users SET delete_status = 1 WHERE id = ? AND tenant_id = ?", [id, tenantId]);
   },
-
   update: async (id, userData) => {
     const { firstName, lastName, email, phoneNumber, activeStatus } = userData;
     await db.query("UPDATE users SET name = ?, surname = ?, email = ?, phone_number = ?, account_status = ? WHERE id = ?", [firstName, lastName, email, phoneNumber, activeStatus, id]);
