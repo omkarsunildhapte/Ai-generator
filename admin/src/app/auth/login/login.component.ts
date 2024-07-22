@@ -83,7 +83,6 @@ export class LoginComponent {
             localStorage.setItem('token', res.res.token);
             this.messageService.add({ severity: 'success', summary: 'Success', detail: res.res.message });
             const checks  =  res.res.data.role.some((e:any)=>e=='Admin')
-            debugger
             this.router.navigate([ checks ?'/main': 'user']);
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: res.error });
