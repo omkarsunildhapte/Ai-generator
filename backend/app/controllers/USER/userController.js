@@ -28,7 +28,6 @@ const userController = {
           permissions: JSON.stringify(data.permissions)
         }]
       }
-      console.log(payload)
       await UserRolesPermission.add(payload);
       res.status(201).json({ error: null, res: { message: 'Registration successful' }, status: 201 });
     } catch (err) {
