@@ -97,4 +97,12 @@ export class AISolutionService {
     return this.http.post<any>(`${environment.apiUrl}/prompts/getAllPersonasCategoriesQuestions`, null);
   }
 
+  createOrUpdateSetting(body: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/promptsSettings/createOrUpdateSetting`, body);
+  }
+
+  getPromptsSettings(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/promptsSettings/getPromptsSettings`);
+  }
+
 }

@@ -68,7 +68,7 @@ export class UserService {
 
   logOut(){
     localStorage.clear();
-  this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
   
   updateEmail(body: any,userid:any): Observable<any> {
@@ -88,22 +88,6 @@ export class UserService {
 
   deleteUser(userId:any): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/user/delete`, null);
-  }
-
-  openAiKeySettingsUpdate(body: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/openAiKeySettingsUpdate`, body);
-  }
-
-  bingSeachKeySettingsUpdate(body: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/bingSeachKeySettings`, body);
-  }
-
-  chatSettingsUpdate(body: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/chatSettingsUpdate`, body);
-  }
-
-  getSetting(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/getSettings`,null);
   }
 
   updateAffiliate(body: any): Observable<any> {
