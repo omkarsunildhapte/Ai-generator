@@ -1,6 +1,7 @@
 const User = require('../models/USER/userModel');
+const UserRolesPermission = require('../models/USER/user_roles_permissionModel');
 
-const checkAuth = async (req, res, next) => {
+const checkAuth = (permissionId) =>  async (req, res, next) => {
   const userId = parseInt(req.query.userId, 10);
   const tenantId = parseInt(req.query.tenantId, 10);
   const authHeader = req.headers.authorization;
@@ -26,10 +27,16 @@ const checkAuth = async (req, res, next) => {
     if (isNaN(tokenExpiry.getTime()) || currentTime > tokenExpiry) {
       return res.status(401).json({ status: 401, error: 'Unauthorized: Token expired', res: null });
     }
+    const userPermissions = await UserRolesPermission.find(user.id);
+    const allPermissions = userPermissions.roles.flatMap(role => JSON.parse(role.permissions));
+    const uniquePermissions = [...new Set(allPermissions)];
+    // if (uniquePermissions.length || uniquePermissions.find(permissionId)) {
+    //   return res.status(403).json({ message: 'Forbidden: Insufficient permissions' });
+    // }
     req.user = user;
     next();
   } catch (error) {
-    console.error('Error in authentication middleware:', error); // Log the error for debugging
+    console.error('Error in authentication middleware:', error); 
     res.status(500).json({ status: 500, error: 'Internal server error', res: null });
   }
 };
