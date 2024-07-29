@@ -21,19 +21,22 @@ export class LoginWithGoogleComponent {
   userService = inject(UserService);
 
   ngOnInit(): void {
-    this.userService.getGoogleSettings().subscribe((res:any)=>{
-      if (res.status==200){
+    this.getGoogleSettings();
+  }
+  getGoogleSettings() {
+    this.userService.getGoogleSettings().subscribe((res: any) => {
+      if (res.status == 200) {
         this.googleSetupForm.patchValue(res.res)
       }
     })
   }
 
   onSubmit(): void {
-    if(this.googleSetupForm.valid){
+    if (this.googleSetupForm.valid) {
       const body = this.googleSetupForm.getRawValue();
-      this.userService.updateGoogleSettings(body).subscribe((res:any)=>{
-        if(res.status){
-
+      this.userService.updateGoogleSettings(body).subscribe((res: any) => {
+        if (res.status == 200) {
+          this.getGoogleSettings();
         }
       })
     }

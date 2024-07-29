@@ -12,7 +12,12 @@ const brandingController = require('../controllers/USER/brandingController');
 const promptsController = require('../controllers/Promote/promptsController');
 const platformController = require('../controllers/Platform/platformController');
 const promoteSettingsController = require('../controllers/Promote/promoteSettingsController');
+const botsPromptsController = require('../controllers/Promote/botsPromptsController');
+const googleSettingsController = require('../controllers/Promote/googleSettingsController');
 const aiPlatformController = require('../controllers/Platform/aiPlatformController');
+const pagesController = require('../controllers/CMS/pagesController');
+const tagsController = require('../controllers/CMS/tagsController');
+const categoriesController = require('../controllers/CMS/categoriesController');
 const checkAuth = require('../middleware/authMiddleware');
 const router = express.Router();
 
@@ -99,6 +104,29 @@ router.post('/platform/getAllPlanHistroy',checkAuth(14), platformController.getA
 router.post('/platform/resetUpdateUser',checkAuth(14), platformController.resetUpdateUser);
 router.get('/platform/resetUpdatePassword/:newPassword',checkAuth(14), platformController.resetUpdatePassword);
 router.get('/platform/updateDefaultLanguage/:languages_code',checkAuth(14), platformController.updateDefaultLanguage);
-// router.post('/platform/generateImage', aiPlatformController.generateImage);
+router.get('/bots-prompts', botsPromptsController.getAllBotPrompts);
+router.post('/bots-prompts', botsPromptsController.createOrUpdateBotPrompt);
+router.delete('/bots-prompts/:id', botsPromptsController.deleteBotPrompt);
+router.get('/google-settings', googleSettingsController.getSettings);
+router.post('/google-settings', googleSettingsController.saveSettings);
+router.post('/pages', pagesController.createPage);
+router.put('/pages/:id', pagesController.updatePage);
+router.delete('/pages/:id', pagesController.deletePage);
+router.get('/pages', pagesController.getAllPages);
+router.get('/pages/:id', pagesController.getPageById);
+
+// Tags
+router.post('/tags', tagsController.createTag);
+router.put('/tags/:id', tagsController.updateTag);
+router.delete('/tags/:id', tagsController.deleteTag);
+router.get('/tags', tagsController.getAllTags);
+router.get('/tags/:id', tagsController.getTagById);
+
+// Categories
+router.post('/categories', categoriesController.createCategory);
+router.put('/categories/:id', categoriesController.updateCategory);
+router.delete('/categories/:id', categoriesController.deleteCategory);
+router.get('/categories', categoriesController.getAllCategories);
+router.get('/categories/:id', categoriesController.getCategoryById);
 
 module.exports = router;

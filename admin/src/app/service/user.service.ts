@@ -40,11 +40,11 @@ export class UserService {
   }
 
   updateGoogleSettings(body:any):Observable<any>{
-    return this.http.post<any>(`${environment.apiUrl}/user/updateGoogleSettings`, body);
+    return this.http.post<any>(`${environment.apiUrl}/google-settings`, body);
   }
 
   getGoogleSettings(): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/user/getGoogleSettings`,null);
+    return this.http.get<any>(`${environment.apiUrl}/google-settings`);
   }
 
   userExist(email: string): Observable<any> {

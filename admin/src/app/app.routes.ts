@@ -95,15 +95,15 @@ export const routes: Routes = [
       },
       {
         path: 'content-management',
-        loadComponent: () => import('./superAdminAndAdmin/content-management/content-management.component').then(m => m.ContentManagementComponent)
+        loadComponent: () => import('./superAdminAndAdmin/CMS/content-management/content-management.component').then(m => m.ContentManagementComponent)
       },
       {
         path: 'pages',
-        loadComponent: () => import('./superAdminAndAdmin/pages/pages.component').then(m => m.PagesComponent)
+        loadComponent: () => import('./superAdminAndAdmin/CMS/pages/pages.component').then(m => m.PagesComponent)
       },
       {
         path: 'tags',
-        loadComponent: () => import('./superAdminAndAdmin/tags/tags.component').then(m => m.TagsComponent)
+        loadComponent: () => import('./superAdminAndAdmin/CMS/tags/tags.component').then(m => m.TagsComponent)
       },
     ],
   },

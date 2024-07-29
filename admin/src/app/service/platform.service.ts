@@ -35,7 +35,7 @@ export class PlatformService {
 
   getAllPlanHistroy(page: number, limit: number, sort: string): Observable<any> {
     const body = { page, limit, sort};
-    return this.http.post<any>(`${environment.apiUrl}/platform/getAllPlanHistroy  `, body);
+    return this.http.post<any>(`${environment.apiUrl}/platform/getAllPlanHistroy`, body);
   }
 
   resetUpdateUser(body:any){
