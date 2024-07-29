@@ -1,44 +1,112 @@
 <div class="flex px-16">
     <div class="rounded shadow-lg bg-white mb-4 mx-6 px-6 py-4 w-6/12">
-        <div>
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
             <div class="font-bold text-xl mb-2 border-b-2">Profile</div>
             <div class="mt-4">
-                <label for="inputField" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                <input id="inputField" type="text" placeholder="Enter Key"
+                <label for="firstName" class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+                <input id="firstName" type="text" formControlName="firstName" placeholder="Enter First Name"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                @if(profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched){
+                <div class="text-red-500 text-sm">
+                    First Name is required.
+                </div>
+                }
             </div>
             <div class="mt-4">
-                <label for="inputField" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                <input id="inputField" type="text" placeholder="Enter Key"
+                <label for="lastName" class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+                <input id="lastName" type="text" formControlName="lastName" placeholder="Enter Last Name"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                @if(profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched){
+                <div class="text-red-500 text-sm">
+                    Last Name is required.
+                </div>
+                }
             </div>
-        </div>
-        <div class="pt-5">
-            <button
-                class="buttoncolor text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Save
-            </button>
-        </div>
+            <div class="mt-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input id="email" type="email" formControlName="email" placeholder="Enter Email"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                @if(profileForm.get('email')?.invalid && profileForm.get('email')?.touched){
+                <div class="text-red-500 text-sm">
+                    @if(profileForm.get('email')?.errors?.['required']){
+                    Email Name is required.
+                    } @else if (profileForm.get('email')?.errors?.['email']){
+                    Invalid email format.
+                    }
+                </div>
+                }
+            </div>
+            <div class="pt-5">
+                <button type="submit"
+                    class="buttoncolor text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Save
+                </button>
+            </div>
+        </form>
     </div>
     <div class="rounded shadow-lg bg-white mb-4 mx-6 px-6 py-4 w-6/12">
-        <div>
-            <div class="font-bold text-xl mb-2 border-b-2">Change password</div>
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+            <div class="font-bold text-xl mb-2 border-b-2">Change Password</div>
             <div class="mt-4">
-                <label for="inputField" class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
-                <input id="inputField" type="text" placeholder="Enter Key"
+                <label for="newPassword" class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
+                <input id="newPassword" type="password" formControlName="newPassword" placeholder="Enter New Password"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                @if(passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched){
+                <div class="text-red-500 text-sm">
+                    @if(passwordForm.get('newPassword')?.errors?.['required']){
+                    New Password is required.
+                    } @else if (passwordForm.get('newPassword')?.errors?.['minlength']){
+                    Password must be at least 8 characters long.
+                    }
+                </div>
+                }
             </div>
             <div class="mt-4">
-                <label for="inputField" class="block text-gray-700 text-sm font-bold mb-2">Repeat New Password</label>
-                <input id="inputField" type="text" placeholder="Enter Key"
+                <label for="repeatPassword" class="block text-gray-700 text-sm font-bold mb-2">Repeat New
+                    Password</label>
+                <input id="repeatPassword" type="password" formControlName="repeatPassword"
+                    placeholder="Repeat New Password"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                @if(passwordForm.get('repeatPassword')?.invalid && passwordForm.get('repeatPassword')?.touched){
+                <div class="text-red-500 text-sm">
+                    @if(passwordForm.get('repeatPassword')?.errors?.['required']){
+                    New Password is required.
+                    } @else if (passwordForm.errors && passwordForm.errors['passwordMismatch']){
+                    Passwords do not match.
+                    }
+                </div>
+                }
             </div>
-        </div>
-        <div class="pt-5">
-            <button
-                class="buttoncolor text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Save
-            </button>
-        </div>
+            <div class="pt-5">
+                <button type="submit"
+                    class="buttoncolor text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="flex px-16">
+    <div class="rounded shadow-lg bg-white mb-4 mx-6 px-6 py-4 w-6/12">
+        <form>
+            <div class="font-bold text-xl mb-2 border-b-2">Default Language</div>
+            <div class="mt-4">
+                <label for="defaultLanguage" class="block text-gray-700 text-sm font-bold mb-2">Language</label>
+                <p-dropdown id="defaultLanguage" [formControl]="defaultLanguage" [options]="option" optionLabel="name"
+                    optionValue="code"></p-dropdown>
+                @if(defaultLanguage.invalid && defaultLanguage.touched){
+                <div class="text-red-500 text-sm">
+                    Language selection is required.
+                </div>
+                }
+            </div>
+            <div class="pt-5">
+                <button (click)="saveLanguage()"
+                    class="buttoncolor text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Save
+                </button>
+            </div>
+        </form>
     </div>
 </div>

@@ -1,18 +1,18 @@
 <div class="flex">
-    <div class="h-screen overflow-y-auto bg-white w-[28vw] border-e-2">
+    <div class=" bg-white w-[28vw] border-e-2">
         <div class="p-8">
           <div class="bg-gray-100 rounded-3xl p-6">
             <div class="text-sm text-gray pb-5 text-gray">Your plan - Free</div>
             <div class="flex justify-between pb-2">
               <div class="text-xs text-gray">Words</div>
-              <div class="text-xs text-gray">900/2000 words used</div>
+              <div class="text-xs text-gray">{{user.word_used}}/{{user.word_limit}} words used</div>
             </div>
             <div class="pb-5">
               <div class="bg-blue-200 rounded-3xl" style="height:5px;"></div>
             </div>
             <div class="flex justify-between pb-2">
               <div class="text-xs text-gray">Images</div>
-              <div class="text-xs text-gray">10/25 images used</div>
+              <div class="text-xs text-gray">{{user.image_used}}/{{user.image_limit}} images used</div>
             </div>
             <div class="pb-5">
               <div class="bg-blue-200 rounded-3xl" style="height:5px;"></div>
@@ -21,11 +21,11 @@
         </div>
         <div class="pt-5 px-8">
           <div class="text-base pb-2 ps-3 text-gray">DASHBOARD</div>
-          <div class="flex items-center gap-8 pb-3" (click)="goPath('/user/library')">
+          <div class="flex items-center gap-8 pb-3" routerLink="/user/library">
             <img src="../../../assets/images/book.svg" alt="book-icon" />
             <div class="text-sm text-gray" >Library</div>
           </div>
-          <div class="flex items-center gap-8 pb-3" (click)="goPath('/user/history')">
+          <div class="flex items-center gap-8 pb-3" routerLink="/user/history">
             <img src="../../../assets/images/newspaper.svg" alt="notes" />
             <div class="text-sm text-gray" >History</div>
           </div>
@@ -97,7 +97,7 @@
           <div class="text-base pb-2 ps-3 text-gray">ACCOUNT</div>
           @for(item of account_data;track item;let i = $index){
             <div  class="flex justify-between w-100">
-              <div class="flex items-center gap-3 pb-3 cursor-pointer" [routerLink]="item.link">
+              <div class="flex items-center gap-3 pb-3 cursor-pointer" (click)="goPath(item)">
                 <img [src]="i % 2 === 0 ? '../../../assets/images/book.svg' : '../../../assets/images/newspaper.svg'" alt="shock" />
                 <div class="text-gray text-sm">{{ item.text }}</div>
               </div>

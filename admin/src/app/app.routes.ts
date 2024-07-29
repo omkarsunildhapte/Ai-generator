@@ -130,40 +130,44 @@ export const routes: Routes = [
       { path: '', redirectTo: 'library', pathMatch: 'full' },
       {
         path: 'library',
-        loadComponent: () => import('./user/library/library.component').then(m => m.LibraryComponent),
+        loadComponent: () => import('./user/library/library.component').then(m => m.LibraryComponent)
       },
       {
         path: 'history',
-        loadComponent: () => import('./user/history/history.component').then(m => m.HistoryComponent),
+        loadComponent: () => import('./user/history/history.component').then(m => m.HistoryComponent)
       },
       {
         path: 'prompts',
-        loadComponent: () => import('./user/promote/promote.component').then(m => m.PromoteComponent),
+        loadComponent: () => import('./user/promote/promote.component').then(m => m.PromoteComponent)
       },
       {
         path: 'chats',
-        loadComponent: () => import('./user/chats/chats.component').then(m => m.ChatsComponent),
+        loadComponent: () => import('./user/chats/chats.component').then(m => m.ChatsComponent)
       },
       {
         path: 'chatbox',
-        loadComponent: () => import('./user/chats/chat-box/chat-box.component').then(m => m.ChatBoxComponent),
+        loadComponent: () => import('./user/chats/chat-box/chat-box.component').then(m => m.ChatBoxComponent)
       },
       {
         path: 'imagegenerate',
-        loadComponent: () => import('./user/image-generator/image-generator.component').then(m => m.ImageGeneratorComponent),
+        loadComponent: () => import('./user/image-generator/image-generator.component').then(m => m.ImageGeneratorComponent)
       },
       {
         path: 'gallery',
-        loadComponent: () => import('./user/image-generator/image-generator.component').then(m => m.ImageGeneratorComponent),
+        loadComponent: () => import('./user/image-generator/image-generator.component').then(m => m.ImageGeneratorComponent)
       },
       {
         path: 'profile',
-        loadComponent: () => import('./user/profile/profile.component').then(m => m.ProfileComponent),
+        loadComponent: () => import('./user/profile/profile.component').then(m => m.ProfileComponent)
       },
       {
-        path: 'setting',
-        loadComponent: () => import('./user/settings/settings.component').then(m => m.SettingsComponent),
+        path:'subscription',
+        loadComponent: () => import('./user/subscription/subscription.component').then(m => m.SubscriptionComponent)
       },
+      {
+        path:'payments',
+        loadComponent: () => import('./user/payments/payments.component').then(m => m.PaymentsComponent)
+      }
     ]
   }
 ];

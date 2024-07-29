@@ -1,1 +1,46 @@
-<p>payments works!</p>
+<div class="flex px-16">
+    <div class="rounded shadow-lg bg-white mb-4 mx-6 px-6 py-4 w-full">
+        <div class="mb-2 border-b-2 flex justify-between">
+            <span class="font-bold text-xl">Payment History</span>
+        </div>
+        <div class="">
+            <div class="px-4">
+                <p-table [value]="data" [paginator]="true" [rows]="limit" [totalRecords]="totalRecords"
+                  [showCurrentPageReport]="true" styleClass="p-datatable-striped"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPage)="onPageChange($event)"
+                  [lazy]="true" [loading]="loading" [rowsPerPageOptions]="[10, 25,50,100]" [sortMode]="'multiple'"
+                  (onSort)="onSort($event)">
+                  <ng-template pTemplate="header">
+                    <tr>
+                        <th class="px-4 py-2">#</th>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Payment method</th>
+                        <th class="px-4 py-2">Amount</th>
+                        <th class="px-4 py-2">Status</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                    <tr>
+                      <td class="px-4 py-2">{{rowIndex+1}}</td>
+                      <td class="px-4 py-2">{{rowData.purchase_date |date}}</td>
+                      <td class="px-4 py-2">{{rowData.expiry_date |date}}</td>
+                      <td class="px-4 py-2">{{rowData.name}}</td>
+                      <td class="px-4 py-2">{{rowData.amount}}</td>
+                      <td class="px-4 py-2">
+                        <span [class]="getStatusClass(rowData.status)" class="px-2 py-1 rounded-full text-sm">
+                          {{ rowData.status === 1 ? 'true' : 'false' }}
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="5">No customers found.</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+        </div>
+    </div>
+</div>

@@ -90,9 +90,15 @@ router.post('/branding/colors', checkAuth(16), brandingController.updateColor);
 router.get('/branding/colors', brandingController.getColors);
 
 // Platform Routes
-router.get('/platform/getUserCategories', platformController.getUserCategories);
-router.get('/platform/getPrompts/:id', platformController.getPrompts);
-router.get('/platform/getDefaultUpdatePlan', platformController.getDefaultUpdatePlan);
+router.get('/platform/getUserCategories',checkAuth(14), platformController.getUserCategories);
+router.get('/platform/getPrompts/:id',checkAuth(14), platformController.getPrompts);
+router.get('/platform/getDefaultUpdatePlan',checkAuth(14), platformController.getDefaultUpdatePlan);
+router.get('/platform/getPlatformPrimePlans',checkAuth(14), platformController.getPlatformPrimePlans);
+router.post('/platform/createPlatformPlanHistroy',checkAuth(14), platformController.createPlatformPlanHistroy);
+router.post('/platform/getAllPlanHistroy',checkAuth(14), platformController.getAllPlanHistroy);
+router.post('/platform/resetUpdateUser',checkAuth(14), platformController.resetUpdateUser);
+router.get('/platform/resetUpdatePassword/:newPassword',checkAuth(14), platformController.resetUpdatePassword);
+router.get('/platform/updateDefaultLanguage/:languages_code',checkAuth(14), platformController.updateDefaultLanguage);
 // router.post('/platform/generateImage', aiPlatformController.generateImage);
 
 module.exports = router;

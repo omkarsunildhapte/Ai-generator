@@ -36,7 +36,9 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status==401){
         userService.logOut();
       }
-      return throwError(()=> error);
+      return throwError(()=>{
+         error
+      });
     })
   )
 };

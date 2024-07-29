@@ -63,6 +63,7 @@ export class PlansComponent implements OnInit{
   typeOptions = [
     { label: 'Paid', value: 'paid' },
     { label: 'Free', value: 'free' },
+    { label: 'Gift', value: 'gift' },
   ];
 
   planDurationOptions = [

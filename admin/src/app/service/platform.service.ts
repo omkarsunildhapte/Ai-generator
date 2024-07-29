@@ -16,8 +16,37 @@ export class PlatformService {
   getPrompts(promptId:number): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/platform/getPrompts/${promptId}`);
   }
+
+  getDefaultUpdatePlan(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/platform/getDefaultUpdatePlan`);
+  }
+  
+  getPlatformPrimePlans(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/platform/getPlatformPrimePlans`);
+  }
   
   getImages(body:number): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/platform/generateImage`,body);
+  }
+  
+  createPlatformPlanHistroy(body:any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/platform/createPlatformPlanHistroy`,body);
+  }
+
+  getAllPlanHistroy(page: number, limit: number, sort: string): Observable<any> {
+    const body = { page, limit, sort};
+    return this.http.post<any>(`${environment.apiUrl}/platform/getAllPlanHistroy  `, body);
+  }
+
+  resetUpdateUser(body:any){
+    return this.http.post<any>(`${environment.apiUrl}/platform/resetUpdateUser`, body);
+  }
+  
+  resetUpdatePassword(newPassword: string) {
+    return this.http.get<any>(`${environment.apiUrl}/platform/resetUpdatePassword/${newPassword}`);
+  }
+
+  updateDefaultLanguage(languages_code: any) {
+    return this.http.get<any>(`${environment.apiUrl}/platform/updateDefaultLanguage/${languages_code}`);
   }
 }

@@ -34,6 +34,8 @@ const userController = {
       res.status(500).json({ error: err.message, status: 500, res: null });
     }
   },
+  
+  // Register a new Admin
   registerAdmin: async (req, res) => {
     const { name, surname, email, password, phone_number, locationName, address, county, state, city, zipcode } = req.body;
     const tenant_id = 1;
@@ -62,6 +64,7 @@ const userController = {
       res.status(500).json({ error: err.message, status: 500, res: null });
     }
   },
+  
   // Login user and send OTP
   login: async (req, res) => {
     const { email, password } = req.body;
@@ -107,6 +110,7 @@ const userController = {
           message: 'OTP verified successfully',
           data: {
             name: updatedUser.name,
+            surname:updatedUser.surname,
             email: updatedUser.email,
             phone_number: updatedUser.phone_number,
             locationName: updatedUser.locationName,
@@ -117,7 +121,16 @@ const userController = {
             county: updatedUser.county,
             id: updatedUser.id,
             tenantId: updatedUser.tenant_id,
-            role:data.roles.map(e=>e.role_name)
+            role:data.roles.map(e=>e.role_name),
+            seat_limit:updatedUser.seat_limit,
+            word_limit:updatedUser.word_limit,
+            image_limit:updatedUser.image_limit,
+            default_plan:updatedUser.default_plan,
+            plan_id:updatedUser.plan_id,
+            seat_used: updatedUser.seat_used,
+            word_used:updatedUser.word_used,
+            image_used:updatedUser.image_used,
+            default_language:updatedUser.default_language
           },
           token: updatedUser.token
         },
@@ -128,7 +141,7 @@ const userController = {
       res.status(500).json({ error: err.message, status: 500, res: null });
     }
   },
-
+  
   // Regenerate OTP
   regenerateOtp: async (req, res) => {
     const email = req.params.email;
@@ -203,6 +216,7 @@ const userController = {
     }
   },
 
+  // get All Users
   getAllUsers: async (req, res) => {
     const userId = req.query.userId;
     const { page, limit, sort, search } = req.query;

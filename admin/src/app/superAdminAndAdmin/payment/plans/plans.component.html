@@ -105,8 +105,8 @@
           <select id="newQuestion" formControlName="default_plan"
             class="flex-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <option value="">Select Default Status</option>
-            <option value="0">True</option>
-            <option value="1">False</option>
+            <option value="1">True</option>
+            <option value="0">False</option>
           </select>
         </div>
       }
@@ -120,7 +120,7 @@
           }
         </select>
       </div>
-      @if(planForm.controls['type'].value!=='free'){
+      @if(planForm.controls['type'].value!=='free' && planForm.controls['type'].value!=='gift'){
       <div class="flex flex-wrap gap-3 mb-3">
         <label for="price" class="font-semibold w-1/2">Price</label>
         <input type="number"

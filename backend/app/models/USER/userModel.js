@@ -84,15 +84,17 @@ const User = {
 
     const [users] = await db.query(query, queryParams);
 
-    const [totalCountResult] = await db.query("SELECT COUNT(*) AS count FROM users WHERE tenant_id = ? AND delete_status = 0",[userId]);
+    const [totalCountResult] = await db.query("SELECT COUNT(*) AS count FROM users WHERE tenant_id = ? AND delete_status = 0", [userId]);
     const totalCount = totalCountResult[0].count;
 
     return { users, total: totalCount, page, totalPages: Math.ceil(totalCount / limit) };
   },
+
   updateEmailVerify: async (data) => {
     const { userId, newEmail, token, tenantId } = data;
     await db.query("UPDATE users SET new_email = ?, email_verification_token = ?, email_token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE id = ? AND tenant_id = ?", [newEmail, token, userId, tenantId]);
   },
+
   verifyEmailToken: async (token) => {
     const [rows] = await db.query("SELECT * FROM users WHERE email_verification_token = ? AND email_token_expiry > NOW()", [token]);
     if (rows.length > 0) {
@@ -103,23 +105,38 @@ const User = {
       return null;
     }
   },
+
   updateEmail: async (userId, newEmail, tenantId) => {
     await db.query("UPDATE users SET email = ? WHERE id = ? AND tenant_id = ?", [newEmail, userId, tenantId]);
   },
+
   updateStatus: async (id, tenantId, activeStatus) => {
     await db.query("UPDATE users SET account_status = ? WHERE id = ? AND tenant_id = ?", [activeStatus, id, tenantId]);
   },
+
   delete: async (id, tenantId) => {
     await db.query("UPDATE users SET delete_status = 1 WHERE id = ? AND tenant_id = ?", [id, tenantId]);
   },
-  update: async (id, userData) => {
+
+  update: async (id, userData,tenantId) => {
     const { firstName, lastName, email, phoneNumber, activeStatus } = userData;
-    await db.query("UPDATE users SET name = ?, surname = ?, email = ?, phone_number = ?, account_status = ? WHERE id = ?", [firstName, lastName, email, phoneNumber, activeStatus, id]);
+    await db.query("UPDATE users SET name = ?, surname = ?, email = ?, phone_number = ?, account_status = ? WHERE id = ? AND tenant_id = ?", [firstName, lastName, email, phoneNumber, activeStatus, id,tenantId]);
   },
 
   findOut: async (id, tenantId) => {
     const [rows] = await db.query("SELECT * FROM users WHERE id = ? AND tenant_id = ?", [id, tenantId]);
     return rows[0];
+  },
+
+  updateDefaultLanguage: async (id, languages_code, tenant_id) => {
+    const query = `UPDATE users SET default_language = ? WHERE id = ? AND tenant_id = ?;`;
+    await db.query(query, [languages_code, id, tenant_id]);
+  },
+  
+  updatePlan: async (id, planData, tenant_id) => {
+    const { default_plan, image_limit, seats_limit, word_limit, plan_id } = planData;
+    const query = `UPDATE users SET default_plan = ?, image_limit = ?, seat_limit = ?, word_limit = ?,plan_id = ? WHERE id = ? AND tenant_id = ?;`;
+    await db.query(query, [default_plan, image_limit, seats_limit, word_limit, plan_id, id, tenant_id]);
   }
 };
 
