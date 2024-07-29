@@ -224,7 +224,6 @@ const userController = {
       const result = await User.get({ userId, page, limit, sort, search });
       res.status(200).json({ status: 200, res: result, error: null });
     } catch (error) {
-      console.error('Error fetching users:', error);
       res.status(500).json({ status: 500, error: error.message, res: null });
     }
   }

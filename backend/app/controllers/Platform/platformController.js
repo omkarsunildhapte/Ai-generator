@@ -65,7 +65,6 @@ const platformController = {
             const { plan_id, expiry_date, amount, currency, status, image_limit, seats_limit, word_limit } = req.body;
             await Plan.createPlanHistroy(userId, tenantId, { plan_id, expiry_date, amount, currency, status });
             const planData = { default_plan: plan_id, image_limit, seats_limit, word_limit, plan_id: plan_id };
-            console.log(planData)
             await User.updatePlan(userId, planData, tenantId);
             res.status(200).json({ res: null, error: null, status: 200 });
         } catch (error) {
@@ -113,14 +112,12 @@ const platformController = {
             const userId = parseInt(req.query.userId);
             const tenantId = parseInt(req.query.tenantId);
             const { languages_code } = req.params;
-            console.log(req.params)
             if (!languages_code) {
                 return res.status(400).json({ status: 400, res: null, error: 'Missing required parameters.' });
             }
             await User.updateDefaultLanguage(userId,languages_code,tenantId);
             res.status(200).json({ res: { message: 'Languges updated successfully' }, status: 200, error: null });
         } catch (error) {
-            console.log(error.message)
             res.status(500).json({ status: 500, res: null, error: error.message });
         }
     },
